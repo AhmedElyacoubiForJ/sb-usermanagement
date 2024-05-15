@@ -19,10 +19,10 @@ public class RegistrationController {
     private final IUserService userService;
     private final ApplicationEventPublisher publisher;
 
-    @GetMapping("/form")
+    @GetMapping("/registration-form")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user-request", new RegistrationRequest());
-        return "registration-form";
+        return "registration";
     }
 
     // method to register a user
