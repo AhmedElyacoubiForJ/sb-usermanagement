@@ -1,2 +1,8 @@
-package edu.yacoubi.usermanagement.user;public interface UserRepository {
+package edu.yacoubi.usermanagement.user;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
 }
