@@ -3,6 +3,7 @@ package edu.yacoubi.usermanagement.user;
 import edu.yacoubi.usermanagement.registration.RegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> getAllUsers() {
@@ -30,7 +32,11 @@ public class UserService implements IUserService {
 
     @Override
     public User findById(Long id) {
-       return null;
+       return userRepository
+               .findById(id)
+               .orElseThrow(
+                       () -> new RuntimeException("User with ID: " + id + " could not be found")
+    );
     }
 
     @Override
@@ -39,7 +45,7 @@ public class UserService implements IUserService {
                 request.getFirstName(),
                 request.getLastName(),
                 request.getEmail(),
-                request.getPassword(),
+                passwordEncoder.encode(request.getPassword()),
                 Arrays.asList(new Role("USER_ROLE")) // the registered user has per default USER_ROLE
         );
         return userRepository.save(user);

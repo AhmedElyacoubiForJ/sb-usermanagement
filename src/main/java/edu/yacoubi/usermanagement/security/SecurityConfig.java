@@ -1,25 +1,22 @@
 package edu.yacoubi.usermanagement.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
-@Configurable
-@EnableScheduling
+@Configuration
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private UserAppDetailsService userDetailsService;
+    private final UserAppDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -27,7 +24,6 @@ public class SecurityConfig {
     }
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        // dao authentication provider
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -36,7 +32,35 @@ public class SecurityConfig {
     // spring boot security filter chain Bean
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf((csrf) -> csrf.disable())
+        return http.csrf().disable()
+                .authorizeHttpRequests()
+                .requestMatchers(
+                        "/",
+                        "/login",
+                        "/error",
+                        "/registration/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .defaultSuccessUrl("/")
+                .permitAll()
+                .and()
+                .logout()
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/")
+                .and()
+                .build();
+    }
+}
+
+
+/* http.csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests(
                         authorize -> authorize
                                 .requestMatchers("/", "/login", "/error", "/registration/**")
@@ -48,6 +72,4 @@ public class SecurityConfig {
                         form -> form.loginPage("/login")
                 );
         // TODO: LATER
-        return http.build();
-    }
-}
+        return http.build();*/
