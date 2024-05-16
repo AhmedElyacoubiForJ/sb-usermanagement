@@ -17,7 +17,7 @@
         <div class="m-4">
             <h2>User Registration Form</h2>
         </div>
-        <form>
+        <form th:object="${user}">
             <!-- First Name-->
             <div class="mb-3 row">
                 <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
@@ -28,7 +28,7 @@
                             id="firstName"
                             name="firstName"
                             autofocus="autofocus"
-                            th:field="@{firstName}"
+                            th:field="*{firstName}"
                             required
                     >
                 </div>
@@ -43,7 +43,7 @@
                             id="lastName"
                             name="lastName"
                             autofocus="autofocus"
-                            th:field="@{lastName}"
+                            th:field="*{lastName}"
                             required
                     >
                 </div>
@@ -58,7 +58,7 @@
                             id="email"
                             name="email"
                             autofocus="autofocus"
-                            th:field="@{email}"
+                            th:field="*{email}"
                             required
                     >
                 </div>
@@ -73,7 +73,7 @@
                             id="password"
                             name="password"
                             autofocus="autofocus"
-                            th:field="@{password}"
+                            th:field="*{password}"
                             required
                     >
                 </div>
