@@ -17,7 +17,7 @@
         <div class="m-4">
             <h2>User Registration Form</h2>
         </div>
-        <form th:object="${user}">
+        <form th:action="@{/registration/register}" method="post" th:object="${user}" class="px-4">
             <!-- First Name-->
             <div class="mb-3 row">
                 <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
