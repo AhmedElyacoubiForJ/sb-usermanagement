@@ -3,7 +3,10 @@ package edu.yacoubi.usermanagement.utility;
 import java.util.Calendar;
 import java.util.Date;
 
-public class TokenExpirationTime {
+public class TokenUtility {
+    public static final String VALID = "VALID";
+    public static final String INVALID = "INVALID";
+    public static final String EXPIRED = "EXPIRED";
     private static int EXPIRATAION_TIME = 10;
 
     public static Date getExpirationTime() {

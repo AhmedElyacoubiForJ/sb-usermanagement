@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Optional;
+
+import static edu.yacoubi.usermanagement.utility.TokenUtility.*;
+
 @Service
 @RequiredArgsConstructor
 public class TokenEntityService implements ITokenEntityService {
@@ -17,23 +20,25 @@ public class TokenEntityService implements ITokenEntityService {
     public String validateToken(String token) {
         Optional<TokenEntity> theToken = tokenEntityRepository.findByToken(token);
         if (theToken.isEmpty()) {
-            return "INVALID";
+            return INVALID;
         }
+
         User user = theToken.get().getUser();
         Calendar calendar = Calendar.getInstance();
         if ((theToken.get().getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             //deleteUserToken(user.getId());
-            return "EXPIRED";
+            return EXPIRED;
         }
+
         user.setEnabled(true);
         userRepository.save(user);
-        return "VALID";
+        return VALID;
     }
 
     @Override
     public void saveTokenForUser(String token, User user) {
-        var verificationToken = new TokenEntity(token, user);
-        tokenEntityRepository.save(verificationToken);
+        var tokenEntity = new TokenEntity(token, user);
+        tokenEntityRepository.save(tokenEntity);
     }
 
     @Override

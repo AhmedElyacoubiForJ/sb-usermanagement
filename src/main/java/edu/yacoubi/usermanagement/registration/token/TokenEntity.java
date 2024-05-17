@@ -1,7 +1,7 @@
 package edu.yacoubi.usermanagement.registration.token;
 
 import edu.yacoubi.usermanagement.user.User;
-import edu.yacoubi.usermanagement.utility.TokenExpirationTime;
+import edu.yacoubi.usermanagement.utility.TokenUtility;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +26,7 @@ public class TokenEntity {
     public TokenEntity(String token, User user) {
         this.token = token;
         this.user = user;
-        this.expirationTime = TokenExpirationTime.getExpirationTime();
+        this.expirationTime = TokenUtility.getExpirationTime();
     }
 }
 
