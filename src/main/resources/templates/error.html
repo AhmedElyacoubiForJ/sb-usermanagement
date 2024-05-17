@@ -10,7 +10,18 @@
 </head>
 <body>
     <div class="container offset-sm-2 col-md-8 mt-lg-5">
-        <h2 class="m-lg-5">Error Page</h2>
+        <div class="row mt-2">
+            <div th:if="${param.invalid}" class="col-sm-8">
+                <p class="alert alert-danger">
+                    Invalid verification token.
+                </p>
+            </div>
+            <div th:if="${param.expired}" class="col-sm-8">
+                <p class="alert alert-info">
+                    This verification link has already expired.
+                </p>
+            </div>
+        </div>
     </div>
 </body>
 </html>

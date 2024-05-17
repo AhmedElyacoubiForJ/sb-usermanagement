@@ -10,25 +10,21 @@
 </head>
 <body>
 <div class="container col-md-offset-3 col-md-8 mt-lg-5">
-    <div>TODO: VALIDATION MESSAGES HERE</div>
-
     <div class="row mt-4">
         <div th:if="${param.error}" class="col-sm-8">
             <p class="alert alert-danger alert-dismissible fade show" role="alert">
                 Invalid username or password.
             </p>
         </div>
-
         <div th:if="${param.verified}" class="col-sm-8">
             <p class="alert alert-info alert-dismissible fade show">
-                Email verified successfully, please log in here.
+                This account has already been verified, please log in here.
             </p>
         </div>
+        <div th:if="${param.valid}" class="col-sm-8">
+            <p class="alert alert-info alert-dismissible">Email verified successfully, please log in here.</p>
+        </div>
     </div>
-
-
-
-
 
     <form th:action="@{/login}" method="post" class="px-4">
         <h2 class="mb-4">User Login Form</h2>
