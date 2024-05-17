@@ -1,11 +1,10 @@
 package edu.yacoubi.usermanagement.registration;
 
 import edu.yacoubi.usermanagement.event.RegistrationCompleteEvent;
+import edu.yacoubi.usermanagement.registration.token.ITokenEntityService;
 import edu.yacoubi.usermanagement.registration.token.TokenEntity;
-import edu.yacoubi.usermanagement.registration.token.TokenEntityService;
 import edu.yacoubi.usermanagement.user.IUserService;
 import edu.yacoubi.usermanagement.user.User;
-import edu.yacoubi.usermanagement.utility.TokenUtility;
 import edu.yacoubi.usermanagement.utility.UrlUtility;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ import static edu.yacoubi.usermanagement.utility.TokenUtility.VALID;
 public class RegistrationController {
     private final IUserService userService;
     private final ApplicationEventPublisher publisher;
-    private final TokenEntityService tokenEntityService;
+    private final ITokenEntityService tokenEntityService;
 
     @GetMapping("/registration-form")
     public String showRegistrationForm(Model model) {
@@ -33,13 +32,12 @@ public class RegistrationController {
         return "registration";
     }
 
-    // method to register a user
     @PostMapping("/register")
     public String registerUser(
             @ModelAttribute("user") RegistrationRequest request,
             HttpServletRequest httpServletRequest) {
         User user = userService.registerUser(request);
-        // publish the verification email event here
+
         publisher.publishEvent(
                 new RegistrationCompleteEvent(
                         user,

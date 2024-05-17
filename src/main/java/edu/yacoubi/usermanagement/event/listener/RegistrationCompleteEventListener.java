@@ -1,7 +1,7 @@
 package edu.yacoubi.usermanagement.event.listener;
 
 import edu.yacoubi.usermanagement.event.RegistrationCompleteEvent;
-import edu.yacoubi.usermanagement.registration.token.TokenEntityService;
+import edu.yacoubi.usermanagement.registration.token.ITokenEntityService;
 import edu.yacoubi.usermanagement.user.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -20,7 +20,7 @@ import java.util.UUID;
 @Slf4j
 public class RegistrationCompleteEventListener
         implements ApplicationListener<RegistrationCompleteEvent> {
-    private final TokenEntityService tokenService;
+    private final ITokenEntityService tokenService;
     private final JavaMailSender mailSender;
     private User user;
 
@@ -36,7 +36,9 @@ public class RegistrationCompleteEventListener
         //3. save the token for the use
         tokenService.saveTokenForUser(generatedToken, user);
         //4. build the verification email
-        String url = event.getConfirmationUrl() + "/registration/verifyEmail?token=" + generatedToken;
+        String url = event.getConfirmationUrl() +
+                "/registration/verifyEmail?token=" +
+                generatedToken;
         //5. send the email for the user
         try {
             sentVerificationEmail(url);
