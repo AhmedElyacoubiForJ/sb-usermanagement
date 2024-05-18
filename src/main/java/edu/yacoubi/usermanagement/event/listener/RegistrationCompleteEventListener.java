@@ -86,5 +86,3 @@ public class RegistrationCompleteEventListener
        mailSender.send(message);
     }
 }
-
-// <a href="http://localhost:9090/registration/verifyEmail?token=f1b9747e-056d-49cf-8f42-dfd03683971c" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http://localhost:9090/registration/verifyEmail?token%3Df1b9747e-056d-49cf-8f42-dfd03683971c&amp;source=gmail&amp;ust=1716075805293000&amp;usg=AOvVaw38mJ_VY79NeEseTeI9KlpD">Verify your email to activate your account</a>
