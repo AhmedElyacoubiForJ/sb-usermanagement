@@ -1,20 +1,27 @@
 server:
   port: 9090
+
 spring:
+  output:
+    ansi:
+      enabled: always
+  main:
+    banner-mode: off
   datasource:
     url: jdbc:mysql://localhost:3306/end_to_end_db
-    username: root
+    username: ${db.password}
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
+    generate-ddl: true
+    show-sql: true
     hibernate:
       ddl-auto: update
-    show-sql: true
   mail:
-    host: smtp.gmail.com
+    host: mail.gmx.net
     port: 587
-    username: username
-    password: password
+    username: ${username}
+    password: ${password}
     properties:
       mail:
         smtp:

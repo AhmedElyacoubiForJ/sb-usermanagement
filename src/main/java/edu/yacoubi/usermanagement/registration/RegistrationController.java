@@ -60,7 +60,7 @@ public class RegistrationController {
             case VALID:
                 return "redirect:/login?valid";
             default:
-                return "redirect:/login?invalid";
+                return "redirect:/error?invalid";
         }
     }
 }

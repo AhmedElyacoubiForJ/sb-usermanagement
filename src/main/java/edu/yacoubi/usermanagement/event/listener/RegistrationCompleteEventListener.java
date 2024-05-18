@@ -7,7 +7,9 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -22,6 +24,7 @@ public class RegistrationCompleteEventListener
         implements ApplicationListener<RegistrationCompleteEvent> {
     private final ITokenEntityService tokenService;
     private final JavaMailSender mailSender;
+
     private User user;
 
     @Override
@@ -83,3 +86,5 @@ public class RegistrationCompleteEventListener
        mailSender.send(message);
     }
 }
+
+// <a href="http://localhost:9090/registration/verifyEmail?token=f1b9747e-056d-49cf-8f42-dfd03683971c" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http://localhost:9090/registration/verifyEmail?token%3Df1b9747e-056d-49cf-8f42-dfd03683971c&amp;source=gmail&amp;ust=1716075805293000&amp;usg=AOvVaw38mJ_VY79NeEseTeI9KlpD">Verify your email to activate your account</a>
