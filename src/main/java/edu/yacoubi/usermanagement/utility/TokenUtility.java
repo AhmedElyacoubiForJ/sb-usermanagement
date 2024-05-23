@@ -7,7 +7,7 @@ public class TokenUtility {
     public static final String VALID = "VALID";
     public static final String INVALID = "INVALID";
     public static final String EXPIRED = "EXPIRED";
-    private static int EXPIRATAION_TIME = 10;
+    private static int EXPIRATAION_TIME = 3600;
 
     public static Date getExpirationTime() {
         Calendar calendar = Calendar.getInstance();

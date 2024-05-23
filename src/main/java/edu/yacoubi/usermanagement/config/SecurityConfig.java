@@ -1,4 +1,4 @@
-package edu.yacoubi.usermanagement.security;
+package edu.yacoubi.usermanagement.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

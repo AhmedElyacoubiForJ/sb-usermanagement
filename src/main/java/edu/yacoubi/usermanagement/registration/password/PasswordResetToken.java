@@ -1,4 +1,4 @@
-package edu.yacoubi.usermanagement.registration.token;
+package edu.yacoubi.usermanagement.registration.password;
 
 import edu.yacoubi.usermanagement.user.User;
 import edu.yacoubi.usermanagement.utility.TokenUtility;
@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TokenEntity {
+public class PasswordResetToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,19 +23,9 @@ public class TokenEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public TokenEntity(String token, User user) {
+    public PasswordResetToken(String token, User user) {
         this.token = token;
         this.user = user;
-        this.expirationTime = TokenUtility.getExpirationTime();
+        this.expirationTime = TokenUtility.getExpirationTime(); // TODO: later
     }
 }
-
-
-
-
-
-
-
-
-
-

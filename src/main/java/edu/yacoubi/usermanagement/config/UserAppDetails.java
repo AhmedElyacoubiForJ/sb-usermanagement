@@ -1,4 +1,4 @@
-package edu.yacoubi.usermanagement.security;
+package edu.yacoubi.usermanagement.config;
 
 import edu.yacoubi.usermanagement.user.User;
 import lombok.Data;

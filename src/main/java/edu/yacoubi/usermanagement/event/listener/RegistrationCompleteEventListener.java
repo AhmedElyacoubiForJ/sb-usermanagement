@@ -1,15 +1,13 @@
 package edu.yacoubi.usermanagement.event.listener;
 
 import edu.yacoubi.usermanagement.event.RegistrationCompleteEvent;
-import edu.yacoubi.usermanagement.registration.token.ITokenEntityService;
+import edu.yacoubi.usermanagement.registration.token.ConfirmationService;
 import edu.yacoubi.usermanagement.user.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -22,9 +20,8 @@ import java.util.UUID;
 @Slf4j
 public class RegistrationCompleteEventListener
         implements ApplicationListener<RegistrationCompleteEvent> {
-    private final ITokenEntityService tokenService;
+    private final ConfirmationService tokenService;
     private final JavaMailSender mailSender;
-
     private User user;
 
     @Override
@@ -68,6 +65,24 @@ public class RegistrationCompleteEventListener
         emailMessage(subject, senderName, mailContent, mailSender, user);
         log.info("sentVerificationEmail");
         log.info(url);
+    }
+
+    public void sentPasswordResetVerificationEmail(String url)
+            throws MessagingException, UnsupportedEncodingException {
+        log.info("sentPasswordResetVerificationEmail");
+        log.info(url);
+        //1. build the email
+        String subject = "Password Reset Request Verification";
+        String senderName = "Users Verification Service";
+        String mailContent = "<p> Hi, " + "user.getFirstName()" + " " + "user.getLastName()" + ", </p>" +
+                "<p><b>You recently requested to reset reset your password,</b>" +
+                "Please, follow the link below to complete the action. </p>" +
+                "<a href=\"" + url + "\">Reset password</a>" +
+                "<p>Thank you,</p>" +
+                "<p>Users Registration Portal Service</p>";
+        //2. send the email
+        emailMessage(subject, senderName, mailContent, mailSender, user);
+        log.info("sentPasswordResetVerificationEmail, {}", url);
     }
 
     private void emailMessage(
