@@ -9,7 +9,7 @@ spring:
     banner-mode: off
   datasource:
     url: jdbc:mysql://localhost:3306/end_to_end_db
-    username: ${db.password}
+    username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
@@ -18,10 +18,10 @@ spring:
     hibernate:
       ddl-auto: create
   mail:
-    host: mail.gmx.net
-    port: 587
-    username: ${username}
-    password: ${password}
+    host: mail.gmx.net # smtp.gmail.com
+    port: 587          # 587
+    username: ${EMAIL}
+    password: ${PASSWORD}
     properties:
       mail:
         smtp:
