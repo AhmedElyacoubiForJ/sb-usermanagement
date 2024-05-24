@@ -1,0 +1,10 @@
+package edu.yacoubi.usermanagement.enumeration;
+
+public enum EventType {
+    REGISTRATION, RESETPASSWORD
+}
+ /*REGISTRATION_COMPLETE,
+    PASSWORD_RESET_REQUEST,
+    PASSWORD_RESET_COMPLETE,
+    PASSWORD_CHANGE_COMPLETE,
+    PASSWORD_CHANGE_REQUEST,*/

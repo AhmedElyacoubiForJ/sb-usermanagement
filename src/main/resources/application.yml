@@ -1,30 +1,55 @@
 server:
   port: 9090
-
 spring:
+  profiles: ${ACTIVE_PROFILE:dev}
   output:
     ansi:
       enabled: always
   main:
     banner-mode: off
   datasource:
-    url: jdbc:mysql://localhost:3306/end_to_end_db
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE} # localhost : 3306 end_to_end_db
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
+    open-in-view: false
     generate-ddl: true
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: true
   mail:
-    host: mail.gmx.net # smtp.gmail.com
-    port: 587          # 587
-    username: ${EMAIL}
-    password: ${PASSWORD}
+    host: mail.gmx.net    # smtp.gmail.com ${EMAIL_HOST}
+    port: 587             # 587 ${EMAIL_PORT}
+    username: ${EMAIL}    # ${EMAIL_ID}
+    password: ${PASSWORD} # ${EMAIL_PASSWORD}
+    default-encoding: UTF-8
     properties:
       mail:
+        mine:
+          charset: UTF
         smtp:
+          writetimeout: 1000
+          connectiontimeout: 1000
+          timeout: 1000
           auth: true
           starttls:
             enable: true
+    verify:
+      host: http://localhost:9090/ # ${VERIFY_EMAIL_HOST}
+  sql:
+    init:
+      mode: never
+      continue-on-error: false
+      schema-location: classpath:/data/schema.sql
+      data-location: classpath:/data/data.sql
+  servlet:
+    multipart:
+      enable: true
+      max-file-size: 1000MB
+      max-request-size: 1000MB
