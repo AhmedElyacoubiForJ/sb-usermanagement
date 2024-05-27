@@ -1,6 +1,6 @@
 package edu.yacoubi.usermanagement.config;
 
-import edu.yacoubi.usermanagement.user.User;
+import edu.yacoubi.usermanagement.model.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

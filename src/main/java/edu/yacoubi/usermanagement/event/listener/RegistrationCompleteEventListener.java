@@ -1,8 +1,8 @@
 package edu.yacoubi.usermanagement.event.listener;
 
 import edu.yacoubi.usermanagement.event.RegistrationCompleteEvent;
-import edu.yacoubi.usermanagement.confirmation.ConfirmationService;
-import edu.yacoubi.usermanagement.user.User;
+import edu.yacoubi.usermanagement.service.ConfirmationService;
+import edu.yacoubi.usermanagement.model.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;

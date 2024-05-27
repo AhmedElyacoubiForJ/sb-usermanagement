@@ -1,6 +1,6 @@
 package edu.yacoubi.usermanagement.config;
 
-import edu.yacoubi.usermanagement.user.UserRepository;
+import edu.yacoubi.usermanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

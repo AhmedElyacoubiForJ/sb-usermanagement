@@ -1,6 +1,6 @@
 package edu.yacoubi.usermanagement.event.listener;
 
-import edu.yacoubi.usermanagement.email.EmailService;
+import edu.yacoubi.usermanagement.service.EmailService;
 import edu.yacoubi.usermanagement.event.UserEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
