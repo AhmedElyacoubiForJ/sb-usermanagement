@@ -57,6 +57,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @Async
     public void sendSimpleEmail(String name, String toEmail, String subject, String message) {
         var simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom(fromEmail);
@@ -67,6 +68,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @Async
     public void sendHtmlEmail(String name, String toEmail, String token) {
         // TODO: implement
         throw new  UnsupportedOperationException("Not implemented");

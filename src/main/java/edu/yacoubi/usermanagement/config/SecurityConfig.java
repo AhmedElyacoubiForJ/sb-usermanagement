@@ -17,7 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final UserAppDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -43,7 +43,8 @@ public class SecurityConfig {
                                 "/error",
                                 "/registration/**",
                                 "/send-email-test",
-                                "/api/v1/user/register/**"
+                                "/api/v1/user/register/**",
+                                "/api/v1/user/verify/account"
                         ).permitAll().anyRequest().authenticated()
                 )
                 .formLogin(form -> form

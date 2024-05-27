@@ -13,6 +13,7 @@ spring:
     username: ${MYSQL_USERNAME}
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    initialization-mode: always
   jpa:
     open-in-view: false
     generate-ddl: true
@@ -44,7 +45,7 @@ spring:
       host: ${VERIFY_EMAIL_HOST}
   sql:
     init:
-      mode:  NEVER # ALWAYS, EMBEDDED, NEVER
+      mode:  never # ALWAYS, EMBEDDED, NEVER
       continue-on-error: false
       schema-location: classpath:/data/schema.sql
       data-location: classpath:/data/data.sql
