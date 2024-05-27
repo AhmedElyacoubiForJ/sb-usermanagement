@@ -37,8 +37,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/error", "/registration/**", "/send-email-test")
-                        .permitAll().anyRequest().authenticated()
+                        .requestMatchers(
+                                "/",
+                                "/login",
+                                "/error",
+                                "/registration/**",
+                                "/send-email-test",
+                                "/api/v1/user/register/**"
+                        ).permitAll().anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

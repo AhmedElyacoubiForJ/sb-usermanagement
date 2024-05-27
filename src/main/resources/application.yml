@@ -2,14 +2,14 @@ server:
   port: 9090
 spring:
   profiles:
-    active: ${ACTIVE_PROFILE:dev} # ACTIVE_PROFILE:dev
+    active: ${ACTIVE_PROFILE:dev}
   output:
     ansi:
       enabled: always
   main:
     banner-mode: off
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE} # localhost : 3306 end_to_end_db
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}
     username: ${MYSQL_USERNAME}
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -44,7 +44,7 @@ spring:
       host: ${VERIFY_EMAIL_HOST}
   sql:
     init:
-      mode: never
+      mode:  NEVER # ALWAYS, EMBEDDED, NEVER
       continue-on-error: false
       schema-location: classpath:/data/schema.sql
       data-location: classpath:/data/data.sql

@@ -1,0 +1,6 @@
+--BEGIN
+--    CREATE TABLE IF NOT EXISTS test (
+--        id int,
+--        name VARCHAR(255) NOT NULL
+--    );
+--END;

@@ -1,5 +1,7 @@
-package edu.yacoubi.usermanagement.email;
+package edu.yacoubi.usermanagement.resource;
 
+import edu.yacoubi.usermanagement.email.EmailRequest;
+import edu.yacoubi.usermanagement.email.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

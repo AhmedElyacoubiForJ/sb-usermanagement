@@ -1,9 +1,8 @@
 package edu.yacoubi.usermanagement.user;
 
+import edu.yacoubi.usermanagement.role.Role;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
 import java.util.Collection;

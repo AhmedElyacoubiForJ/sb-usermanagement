@@ -1,6 +1,6 @@
 package edu.yacoubi.usermanagement.registration;
 
-import edu.yacoubi.usermanagement.user.Role;
+import edu.yacoubi.usermanagement.role.Role;
 import lombok.Data;
 
 import java.util.List;

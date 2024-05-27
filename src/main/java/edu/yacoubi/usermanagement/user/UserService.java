@@ -11,4 +11,6 @@ public interface UserService {
     Optional<User> findById(Long id);
     User registerUser(RegistrationRequest registrationRequest);
     void updateUser(Long id, String firstName, String lastName, String email);
+    //
+    void createUser(String firstName, String lastName, String email, String password);
 }

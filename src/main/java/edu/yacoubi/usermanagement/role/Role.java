@@ -1,10 +1,9 @@
-package edu.yacoubi.usermanagement.user;
+package edu.yacoubi.usermanagement.role;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter

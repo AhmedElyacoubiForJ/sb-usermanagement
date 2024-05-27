@@ -1,4 +1,4 @@
-package edu.yacoubi.usermanagement.registration.token;
+package edu.yacoubi.usermanagement.confirmation;
 
 import edu.yacoubi.usermanagement.user.User;
 import edu.yacoubi.usermanagement.user.UserRepository;

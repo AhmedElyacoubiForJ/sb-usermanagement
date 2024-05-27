@@ -1,4 +1,4 @@
-package edu.yacoubi.usermanagement.registration.token;
+package edu.yacoubi.usermanagement.confirmation;
 
 import edu.yacoubi.usermanagement.user.User;
 import edu.yacoubi.usermanagement.utility.TokenUtility;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -26,6 +27,12 @@ public class Confirmation {
     public Confirmation(String token, User user) {
         this.token = token;
         this.user = user;
+        this.expirationTime = TokenUtility.getExpirationTime();
+    }
+
+    public Confirmation(User user) {
+        this.user = user;
+        this.token = UUID.randomUUID().toString();
         this.expirationTime = TokenUtility.getExpirationTime();
     }
 }
