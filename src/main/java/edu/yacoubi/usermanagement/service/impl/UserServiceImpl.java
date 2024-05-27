@@ -55,13 +55,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(RegistrationRequest request) {
+        Optional<Role> userRole = roleRepository.findByNameIgnoreCase("ROLE_USER");
         var user = new User(
                 request.getFirstName(),
                 request.getLastName(),
                 request.getEmail(),
-                passwordEncoder.encode(request.getPassword()),
-                Arrays.asList(new Role("USER_ROLE")) // the registered user has per default USER_ROLE
+                passwordEncoder.encode(request.getPassword())
+                //Arrays.asList(new Role("USER_ROLE")) // the registered user has per default USER_ROLE
         );
+        user.setRoles(Arrays.asList(userRole.get()));
         return userRepository.save(user);
     }
 
@@ -79,13 +81,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(String firstName, String lastName, String email, String password) {
+        Optional<Role> userRole = roleRepository.findByNameIgnoreCase("ROLE_USER");
         var user = new User(
                 firstName,
                 lastName,
                 email,
-                passwordEncoder.encode(password),
-                Arrays.asList(new Role("USER_ROLE")) // the registered user has per default USER_ROLE
+                passwordEncoder.encode(password)
+                // Arrays.asList(new Role("USER_ROLE")) // the registered user has per default USER_ROLE
         );
+        user.setRoles(Arrays.asList(userRole.get()));
         User savedUser = userRepository.save(user);
         Confirmation confirmation = new Confirmation(savedUser);
         confirmationRepository.save(confirmation);
