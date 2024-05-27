@@ -18,12 +18,12 @@ public class UserEventListener {
                     .sendNewAccountEmail(
                             event.getUser().getFirstName(),
                             event.getUser().getEmail(),
-                            (String) event.getData().get("key")
+                            (String) event.getData().get("token")
                     );
             case RESETPASSWORD -> emailService.sendPasswordResetEmail(
                     event.getUser().getFirstName(),
                     event.getUser().getEmail(),
-                    (String) event.getData().get("key")
+                    (String) event.getData().get("token")
 
             );
             default ->  {}
