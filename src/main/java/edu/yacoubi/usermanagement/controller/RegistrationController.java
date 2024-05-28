@@ -21,7 +21,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 import java.util.UUID;
 
-import static edu.yacoubi.usermanagement.utility.ConfirmationUtils.*;
+import static edu.yacoubi.usermanagement.constants.TokenStatus.INVALID;
+import static edu.yacoubi.usermanagement.constants.TokenStatus.VALID;
+import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 
 @Controller
 @RequiredArgsConstructor

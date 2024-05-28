@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Optional;
 
-import static edu.yacoubi.usermanagement.utility.ConfirmationUtils.*;
+
+import static edu.yacoubi.usermanagement.constants.TokenStatus.INVALID;
+import static edu.yacoubi.usermanagement.constants.TokenStatus.VALID;
+import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 
 @Service
 @RequiredArgsConstructor
@@ -49,19 +52,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
         confirmationRepository.deleteByUserId(id);
     }
 
-    @Override
-    public String verifyAccount(String token) {
-        Optional<Confirmation> confirmationOptional = confirmationRepository.findByToken(token);
 
-        if (confirmationOptional.isEmpty()) return INVALID;
-        if (isTokenExpired(confirmationOptional.get())) return EXPIRED;
-
-        User user = confirmationOptional.get().getUser();
-        user.setEnabled(true);
-        userRepository.save(user);
-
-        return VALID;
-    }
 
     private boolean isTokenExpired(Confirmation confirmation) {
         Calendar calendar = Calendar.getInstance();

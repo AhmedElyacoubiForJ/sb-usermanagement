@@ -17,8 +17,10 @@ import java.util.Map;
 
 import static java.util.Collections.emptyMap;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.ACCEPTED;
+
+import static edu.yacoubi.usermanagement.constants.TokenStatus.INVALID;
+import static edu.yacoubi.usermanagement.constants.TokenStatus.VALID;
+import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,7 +47,7 @@ public class UserResource {
                                 request,
                                 emptyMap(),
                                 "Account created. Check your email to enable your account",
-                                CREATED
+                                HttpStatus.CREATED
                         )
                 );
     }
@@ -55,17 +57,44 @@ public class UserResource {
             @RequestParam("token") String token,
             HttpServletRequest request) {
 
-        confirmationService.verifyAccount(token);
-        return ResponseEntity
-               .created(getUri())
-               .body(
-                       getResponse(
-                               request,
-                               emptyMap(),
-                               "Account verified. You can now login",
-                               ACCEPTED
-                        )
-               );
+        String verifiedAccountToken = userService.verifyAccountToken(token);
+        switch (verifiedAccountToken) {
+
+            case INVALID:
+                return ResponseEntity
+                       .created(getUri())
+                       .body(
+                                getResponse(
+                                        request,
+                                        emptyMap(),
+                                        "Account not found",
+                                        HttpStatus.NOT_FOUND
+                                )
+                        );
+            case EXPIRED:
+                return ResponseEntity
+                       .created(getUri())
+                       .body(
+                                getResponse(
+                                        request,
+                                        emptyMap(),
+                                        "Account expired. please try to register again",
+                                        HttpStatus.BAD_REQUEST
+                                )
+                        );
+            default: // VALID
+                return ResponseEntity
+                    .created(getUri())
+                    .body(
+                            getResponse(
+                                    request,
+                                    emptyMap(),
+                                    "Account verified. You can now login",
+                                    HttpStatus.ACCEPTED
+                            )
+                    );
+        }
+
     }
 
     private URI getUri() {

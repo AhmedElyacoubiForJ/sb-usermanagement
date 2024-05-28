@@ -14,4 +14,6 @@ public interface UserService {
     void updateUser(Long id, String firstName, String lastName, String email);
     //
     void createUser(String firstName, String lastName, String email, String password);
+
+    String verifyAccountToken(String token);
 }

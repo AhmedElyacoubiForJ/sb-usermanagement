@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Optional;
 
-import static edu.yacoubi.usermanagement.utility.ConfirmationUtils.*;
+import static edu.yacoubi.usermanagement.constants.TokenStatus.INVALID;
+import static edu.yacoubi.usermanagement.constants.TokenStatus.VALID;
+import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 
 @Service
 @RequiredArgsConstructor

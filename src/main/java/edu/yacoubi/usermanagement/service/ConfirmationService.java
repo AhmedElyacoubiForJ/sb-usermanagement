@@ -9,6 +9,4 @@ public interface ConfirmationService {
     void saveTokenForUser(String token, User user);
     Optional<Confirmation> findByToken(String token);
     void deleteUserToken(Long id);
-
-    String verifyAccount(String token);
 }

@@ -20,6 +20,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static edu.yacoubi.usermanagement.constants.TokenStatus.INVALID;
+import static edu.yacoubi.usermanagement.constants.TokenStatus.VALID;
+import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
+
 @Service
 @Transactional(rollbackOn = Exception.class)
 @RequiredArgsConstructor
@@ -40,7 +44,9 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findByEmail(String email) {
         return Optional.ofNullable(userRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User could not be found"))
+                .orElseThrow(
+                        () -> new UsernameNotFoundException("User could not be found")
+                )
         );
     }
 
@@ -100,5 +106,27 @@ public class UserServiceImpl implements UserService {
                         Map.of("token", confirmation.getToken())
                 )
         );
+    }
+
+    @Override
+    public String verifyAccountToken(String token) {
+        Optional<Confirmation> confirmationOptional = confirmationRepository.findByToken(token);
+
+        if (confirmationOptional.isEmpty()) return INVALID;
+
+        Confirmation confirmation = confirmationOptional.get();
+        if (isTokenExpired(confirmation)) return EXPIRED;
+
+        User user = confirmation.getUser();
+        user.setEnabled(true);
+        userRepository.save(user);
+        confirmationRepository.delete(confirmation);
+
+        return VALID;
+    }
+
+    private boolean isTokenExpired(Confirmation confirmation) {
+        Calendar calendar = Calendar.getInstance();
+        return (confirmation.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0;
     }
 }

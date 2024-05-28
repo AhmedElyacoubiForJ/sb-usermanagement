@@ -4,10 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ConfirmationUtils {
-    public static final String VALID = "VALID";
-    public static final String INVALID = "INVALID";
-    public static final String EXPIRED = "EXPIRED";
-    private static int EXPIRATAION_TIME = 3600;
+    private static int EXPIRATAION_TIME = 1;
 
     public static Date getExpirationTime() {
         Calendar calendar = Calendar.getInstance();
