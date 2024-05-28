@@ -1,7 +1,9 @@
 package edu.yacoubi.usermanagement.api;
 
+import edu.yacoubi.usermanagement.api.dto.LoginRequest;
 import edu.yacoubi.usermanagement.api.dto.Response;
 import edu.yacoubi.usermanagement.api.dto.UserRequest;
+import edu.yacoubi.usermanagement.model.User;
 import edu.yacoubi.usermanagement.service.ConfirmationService;
 import edu.yacoubi.usermanagement.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,6 +11,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -28,6 +35,7 @@ import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 public class UserResource {
     private final UserService userService;
     private final ConfirmationService confirmationService;
+    private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
     public ResponseEntity<Response> registerUser(
@@ -95,6 +103,15 @@ public class UserResource {
                     );
         }
 
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> authenticateUser(@RequestBody LoginRequest loginRequest){
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginRequest.getEmail(), loginRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
     }
 
     private URI getUri() {
