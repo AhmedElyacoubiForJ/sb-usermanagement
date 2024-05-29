@@ -3,7 +3,6 @@ package edu.yacoubi.usermanagement.api;
 import edu.yacoubi.usermanagement.api.dto.LoginRequest;
 import edu.yacoubi.usermanagement.api.dto.Response;
 import edu.yacoubi.usermanagement.api.dto.UserRequest;
-import edu.yacoubi.usermanagement.model.User;
 import edu.yacoubi.usermanagement.service.ConfirmationService;
 import edu.yacoubi.usermanagement.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -26,7 +24,6 @@ import static java.util.Collections.emptyMap;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import static edu.yacoubi.usermanagement.constants.TokenStatus.INVALID;
-import static edu.yacoubi.usermanagement.constants.TokenStatus.VALID;
 import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 
 @RestController
@@ -105,13 +102,24 @@ public class UserResource {
 
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginRequest loginRequest){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginRequest.getEmail(), loginRequest.getPassword()));
+    @PostMapping("/login") // 5:40
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
+        Authentication authentication;
+
+       /* authentication = authenticationManager
+                .authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                loginRequest.getEmail(),
+                                loginRequest.getPassword()
+                        )
+                );*/
+
+        UsernamePasswordAuthenticationToken unauthenticated =
+                UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.getEmail(), loginRequest.getPassword());
+        authentication = authenticationManager.authenticate(unauthenticated);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
+        return ResponseEntity.ok().body(Map.of("user", authentication));
     }
 
     private URI getUri() {

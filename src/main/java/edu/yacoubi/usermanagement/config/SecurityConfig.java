@@ -1,5 +1,6 @@
 package edu.yacoubi.usermanagement.config;
 
+import edu.yacoubi.usermanagement.security.MyOwnAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,8 +27,18 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    /*
+    * AuthenticationManager has a DaoAuthenticationProvider
+    * (with help of UserDetailsService & PasswordEncoder)
+    * to validate UsernamePasswordAuthenticationToken object.
+    * If successful, AuthenticationManager returns a fully populated Authentication object
+    * (including granted authorities).
+    *
+    * */
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
+        //MyOwnAuthenticationProvider authProvider = new MyOwnAuthenticationProvider(userDetailsService);
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
