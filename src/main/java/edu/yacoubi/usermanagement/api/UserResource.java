@@ -3,7 +3,6 @@ package edu.yacoubi.usermanagement.api;
 import edu.yacoubi.usermanagement.api.dto.LoginRequest;
 import edu.yacoubi.usermanagement.api.dto.Response;
 import edu.yacoubi.usermanagement.api.dto.UserRequest;
-import edu.yacoubi.usermanagement.model.User;
 import edu.yacoubi.usermanagement.service.ConfirmationService;
 import edu.yacoubi.usermanagement.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,82 +35,60 @@ public class UserResource {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public ResponseEntity<Response> registerUser(
-            @RequestBody @Valid UserRequest userRequest,
-            HttpServletRequest request) {
+    public ResponseEntity<Response> registerUser(@RequestBody @Valid UserRequest uRequest,
+                                                 HttpServletRequest request) {
 
-        userService.createUser(
-                userRequest.getFirstName(),
-                userRequest.getLastName(),
-                userRequest.getEmail(),
-                userRequest.getPassword()
-        );
+        userService.createUser(uRequest.getFirstName(), uRequest.getLastName(),
+                uRequest.getEmail(), uRequest.getPassword());
+
         return ResponseEntity
                 .created(getUri())
-                .body(
-                        getResponse(
-                                request,
-                                emptyMap(),
-                                "Account created. Check your email to enable your account",
-                                HttpStatus.CREATED
-                        )
+                .body(getResponse(request, emptyMap(),
+                        "Account created. Check your email to enable your account",
+                        HttpStatus.CREATED)
                 );
     }
 
     @GetMapping("/verify/account")
-    public ResponseEntity<Response> verifyAccount(
-            @RequestParam("token") String token,
-            HttpServletRequest request) {
-
+    public ResponseEntity<Response> verifyAccount(@RequestParam("token") String token,
+                                                  HttpServletRequest request) {
         String verifiedAccountToken = userService.verifyAccountToken(token);
-        switch (verifiedAccountToken) {
 
+        switch (verifiedAccountToken) {
             case INVALID:
                 return ResponseEntity
-                       .created(getUri())
-                       .body(
-                                getResponse(
-                                        request,
-                                        emptyMap(),
-                                        "Account not found",
-                                        HttpStatus.NOT_FOUND
-                                )
+                        .created(getUri())
+                        .body(getResponse(request, emptyMap(),
+                                "Account not found",
+                                HttpStatus.NOT_FOUND)
                         );
             case EXPIRED:
                 return ResponseEntity
-                       .created(getUri())
-                       .body(
-                                getResponse(
-                                        request,
-                                        emptyMap(),
-                                        "Account expired. please try to register again",
-                                        HttpStatus.BAD_REQUEST
-                                )
+                        .created(getUri())
+                        .body(getResponse(request, emptyMap(),
+                                "Account expired. please try to register again",
+                                HttpStatus.BAD_REQUEST)
                         );
             default: // VALID
-                return ResponseEntity
-                    .created(getUri())
-                    .body(
-                            getResponse(
-                                    request,
-                                    emptyMap(),
-                                    "Account verified. You can now login",
-                                    HttpStatus.ACCEPTED
-                            )
-                    );
+                return ResponseEntity.created(getUri())
+                        .body(getResponse(request, emptyMap(),
+                                "Account verified. You can now login",
+                                HttpStatus.ACCEPTED)
+                        );
         }
-
     }
 
     @PostMapping("/login") // 5:40
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication;
+        UsernamePasswordAuthenticationToken unauthenticated;
 
-        UsernamePasswordAuthenticationToken unauthenticated =
-                UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.getEmail(), loginRequest.getPassword());
+        unauthenticated = UsernamePasswordAuthenticationToken
+                .unauthenticated(loginRequest.getEmail(), loginRequest.getPassword());
         authentication = authenticationManager.authenticate(unauthenticated);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         return ResponseEntity.ok().body(Map.of("user", authentication));
     }
 
@@ -135,15 +112,9 @@ public class UserResource {
     }
 
     // TODO MOVING IT TO  MAKE A GLOBAL USE FOR IT
-    public static Response getResponse(HttpServletRequest request, Map<?,?> data, String message, HttpStatus status) {
-        return new Response(
-                LocalDateTime.now().toString(),
-                status.value(),
-                request.getRequestURI(),
-                HttpStatus.valueOf(status.value()),
-                message,
-                EMPTY,
-                data
-                );
+    public static Response getResponse(HttpServletRequest request, Map<?, ?> data, String message,
+                                       HttpStatus status) {
+        return new Response(LocalDateTime.now().toString(), status.value(), request.getRequestURI(),
+                HttpStatus.valueOf(status.value()), message, EMPTY, data);
     }
 }

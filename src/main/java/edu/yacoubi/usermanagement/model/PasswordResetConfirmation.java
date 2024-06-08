@@ -8,13 +8,15 @@ import lombok.Setter;
 
 import java.util.Date;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class PasswordResetToken {
+public class PasswordResetConfirmation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String token;
     private Date expirationTime;
@@ -22,9 +24,9 @@ public class PasswordResetToken {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public PasswordResetToken(String token, User user) {
+    public PasswordResetConfirmation(String token, User user) {
         this.token = token;
         this.user = user;
-        this.expirationTime = ConfirmationUtils.getExpirationTime(); // TODO: later
+        this.expirationTime = ConfirmationUtils.getExpirationTime();
     }
 }

@@ -20,7 +20,7 @@ public class UserEventListener {
                             event.getUser().getEmail(),
                             (String) event.getData().get("token")
                     );
-            case RESETPASSWORD -> emailService.sendPasswordResetEmail(
+            case RESET_PASSWORD -> emailService.sendPasswordResetEmail(
                     event.getUser().getFirstName(),
                     event.getUser().getEmail(),
                     (String) event.getData().get("token")

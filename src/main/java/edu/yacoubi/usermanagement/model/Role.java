@@ -3,6 +3,8 @@ package edu.yacoubi.usermanagement.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Getter
 @Setter
@@ -10,7 +12,7 @@ import lombok.*;
 @Table(name = "roles")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String name;
 

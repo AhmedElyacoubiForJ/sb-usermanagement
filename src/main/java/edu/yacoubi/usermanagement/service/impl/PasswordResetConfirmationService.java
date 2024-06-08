@@ -1,9 +1,9 @@
 package edu.yacoubi.usermanagement.service.impl;
 
 import edu.yacoubi.usermanagement.model.User;
-import edu.yacoubi.usermanagement.service.IPasswordResetTokenService;
-import edu.yacoubi.usermanagement.model.PasswordResetToken;
-import edu.yacoubi.usermanagement.repository.PasswordResetTokenRepository;
+import edu.yacoubi.usermanagement.service.IPasswordResetConfirmationService;
+import edu.yacoubi.usermanagement.model.PasswordResetConfirmation;
+import edu.yacoubi.usermanagement.repository.PasswordResetConfirmationRepository;
 import edu.yacoubi.usermanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,22 +18,22 @@ import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 
 @Service
 @RequiredArgsConstructor
-public class PasswordResetTokenService  implements IPasswordResetTokenService {
-    private final PasswordResetTokenRepository passwordResetTokenRepository;
+public class PasswordResetConfirmationService implements IPasswordResetConfirmationService {
+    private final PasswordResetConfirmationRepository passwordResetConfirmationRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public void createPasswordResetTokenForUser(User user, String passwordResetToken) {
-        PasswordResetToken newToken =
-                new PasswordResetToken(passwordResetToken, user);
-        passwordResetTokenRepository.save(newToken);
+        PasswordResetConfirmation newToken =
+                new PasswordResetConfirmation(passwordResetToken, user);
+        passwordResetConfirmationRepository.save(newToken);
     }
 
     @Override
     public String validatePasswordResetToken(String theToken) {
-        Optional<PasswordResetToken> passwordResetToken =
-                passwordResetTokenRepository.findByToken(theToken);
+        Optional<PasswordResetConfirmation> passwordResetToken =
+                passwordResetConfirmationRepository.findByToken(theToken);
         if (passwordResetToken.isEmpty()) {
             return INVALID;
         }
@@ -48,7 +48,7 @@ public class PasswordResetTokenService  implements IPasswordResetTokenService {
     @Override
     public Optional<User> findUserByPasswordResetToken(String theToken) {
         return Optional.ofNullable(
-                passwordResetTokenRepository
+                passwordResetConfirmationRepository
                         .findByToken(theToken)
                         .get()
                         .getUser()

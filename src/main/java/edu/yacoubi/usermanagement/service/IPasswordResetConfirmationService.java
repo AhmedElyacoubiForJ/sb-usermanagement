@@ -4,7 +4,7 @@ import edu.yacoubi.usermanagement.model.User;
 
 import java.util.Optional;
 
-public interface IPasswordResetTokenService {
+public interface IPasswordResetConfirmationService {
     void createPasswordResetTokenForUser(User user, String passwordResetToken);
 
     String validatePasswordResetToken(String theToken);

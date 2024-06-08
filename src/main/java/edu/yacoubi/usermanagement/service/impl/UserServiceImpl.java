@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
         publisher.publishEvent(
                 new UserEvent(
                         confirmation.getUser(),
-                        EventType.RESETPASSWORD,
+                        EventType.RESET_PASSWORD,
                         Map.of("token", confirmation.getToken())
                 )
         );

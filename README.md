@@ -9,7 +9,7 @@
 
 
 
-
+<!-- 
 
 * task 3: Add the Security Configuration and Encode The User Password.
 * task 4: Add the Page to display all users in the database.
@@ -23,3 +23,5 @@
 * the application create a token for the user and send an email link to check
 * the user. The user click on the link.
 * the application send a form to reset the password.
+
+-->

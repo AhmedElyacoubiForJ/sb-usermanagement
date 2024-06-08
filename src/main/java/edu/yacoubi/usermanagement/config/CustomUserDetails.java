@@ -20,7 +20,7 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails(User user) {
         this.userName = user.getEmail();
-        this.password =  user.getPassword();
+        this.password = user.getPassword();
         this.isEnabled = user.isEnabled();
         this.authorities = Arrays.stream(user.getRoles().toString().split(","))
                 .map(SimpleGrantedAuthority::new)

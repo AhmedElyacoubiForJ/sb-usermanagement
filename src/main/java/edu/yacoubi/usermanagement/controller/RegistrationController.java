@@ -3,7 +3,7 @@ package edu.yacoubi.usermanagement.controller;
 import edu.yacoubi.usermanagement.controller.dto.RegistrationRequest;
 import edu.yacoubi.usermanagement.event.RegistrationCompleteEvent;
 import edu.yacoubi.usermanagement.event.listener.RegistrationCompleteEventListener;
-import edu.yacoubi.usermanagement.service.IPasswordResetTokenService;
+import edu.yacoubi.usermanagement.service.IPasswordResetConfirmationService;
 import edu.yacoubi.usermanagement.service.ConfirmationService;
 import edu.yacoubi.usermanagement.model.Confirmation;
 import edu.yacoubi.usermanagement.service.UserService;
@@ -32,7 +32,7 @@ public class RegistrationController {
     private final UserService userService;
     private final ApplicationEventPublisher publisher;
     private final ConfirmationService confirmationService;
-    private final IPasswordResetTokenService passwordResetTokenService;
+    private final IPasswordResetConfirmationService passwordResetTokenService;
     private final RegistrationCompleteEventListener eventListener;
 
     @GetMapping("/registration-form")
