@@ -125,6 +125,24 @@ public class UserServiceImpl implements UserService {
         return VALID;
     }
 
+    @Override
+    public void requestResetPasswordForUser(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        User user = optionalUser.get();
+        //user.setEnabled(false);
+        Confirmation confirmation = new Confirmation(user);
+        confirmationRepository.save(confirmation);
+        //userRepository.save(user);
+        publisher.publishEvent(
+                new UserEvent(
+                        confirmation.getUser(),
+                        EventType.RESETPASSWORD,
+                        Map.of("token", confirmation.getToken())
+                )
+        );
+
+    }
+
     private boolean isTokenExpired(Confirmation confirmation) {
         Calendar calendar = Calendar.getInstance();
         return (confirmation.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0;

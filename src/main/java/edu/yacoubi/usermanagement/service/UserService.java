@@ -16,4 +16,6 @@ public interface UserService {
     void createUser(String firstName, String lastName, String email, String password);
 
     String verifyAccountToken(String token);
+
+    void requestResetPasswordForUser(String email);
 }

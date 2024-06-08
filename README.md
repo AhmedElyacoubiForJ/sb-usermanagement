@@ -1,3 +1,15 @@
+# **_Spring Boot 3 / Spring Security 6 / Thymeleaf / MVC Application_**
+
+## _Use Cases_
+* _User Registration_
+* _User Email Verification_
+* _Login / Logout_
+* _User Reset Forgot Password_
+
+
+
+
+
 
 * task 3: Add the Security Configuration and Encode The User Password.
 * task 4: Add the Page to display all users in the database.

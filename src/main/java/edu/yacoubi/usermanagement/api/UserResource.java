@@ -3,6 +3,7 @@ package edu.yacoubi.usermanagement.api;
 import edu.yacoubi.usermanagement.api.dto.LoginRequest;
 import edu.yacoubi.usermanagement.api.dto.Response;
 import edu.yacoubi.usermanagement.api.dto.UserRequest;
+import edu.yacoubi.usermanagement.model.User;
 import edu.yacoubi.usermanagement.service.ConfirmationService;
 import edu.yacoubi.usermanagement.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -106,14 +107,6 @@ public class UserResource {
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
         Authentication authentication;
 
-       /* authentication = authenticationManager
-                .authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                loginRequest.getEmail(),
-                                loginRequest.getPassword()
-                        )
-                );*/
-
         UsernamePasswordAuthenticationToken unauthenticated =
                 UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.getEmail(), loginRequest.getPassword());
         authentication = authenticationManager.authenticate(unauthenticated);
@@ -121,6 +114,21 @@ public class UserResource {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return ResponseEntity.ok().body(Map.of("user", authentication));
     }
+
+    // 1. password reset request, scenario the user must first send email as username
+    // 2. the System sent an email with token
+    // 3. then the user must click on the link in the email to verify the account
+    // 4. user send the new password to the system
+    @PostMapping("/reset/password/request")
+    public ResponseEntity<Response> resetPasswordRequest(
+            @RequestBody LoginRequest loginRequest,
+            HttpServletRequest request) {
+
+        userService.requestResetPasswordForUser(loginRequest.getEmail());
+
+        return ResponseEntity.ok().build();
+    }
+
 
     private URI getUri() {
         return URI.create("");

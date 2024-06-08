@@ -16,8 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@Configuration
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final CustomUserDetailsService userDetailsService;
@@ -64,7 +64,8 @@ public class SecurityConfig {
                                 "/send-email-test",
                                 "/api/v1/user/register/**",
                                 "/api/v1/user/verify/account",
-                                "/api/v1/user/login"
+                                "/api/v1/user/login",
+                                "/api/v1/user/reset/password/request"
                         ).permitAll().anyRequest().authenticated()
                 )
                 .formLogin(form -> form
