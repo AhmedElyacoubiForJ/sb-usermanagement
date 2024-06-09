@@ -1,7 +1,6 @@
 package edu.yacoubi.usermanagement.controller;
 
 import edu.yacoubi.usermanagement.controller.dto.RegistrationRequest;
-import edu.yacoubi.usermanagement.event.RegistrationCompleteEvent;
 import edu.yacoubi.usermanagement.event.listener.RegistrationCompleteEventListener;
 import edu.yacoubi.usermanagement.service.IPasswordResetConfirmationService;
 import edu.yacoubi.usermanagement.service.ConfirmationService;
@@ -12,7 +11,6 @@ import edu.yacoubi.usermanagement.utility.UrlUtils;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,29 +28,20 @@ import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 @RequestMapping("/registration")
 public class RegistrationController {
     private final UserService userService;
-    private final ApplicationEventPublisher publisher;
     private final ConfirmationService confirmationService;
     private final IPasswordResetConfirmationService passwordResetTokenService;
     private final RegistrationCompleteEventListener eventListener;
 
-    @GetMapping("/registration-form")
+    @GetMapping("/form")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new RegistrationRequest());
         return "registration";
     }
 
     @PostMapping("/register")
-    public String registerUser(
-            @ModelAttribute("user") RegistrationRequest request,
+    public String registerUser(@ModelAttribute("user") RegistrationRequest request,
             HttpServletRequest httpServletRequest) {
         User user = userService.registerUser(request);
-
-        publisher.publishEvent(
-                new RegistrationCompleteEvent(
-                        user,
-                        UrlUtils.getApplicationUrl(httpServletRequest)
-                )
-        );
         return "redirect:/registration/registration-form?success";
     }
 

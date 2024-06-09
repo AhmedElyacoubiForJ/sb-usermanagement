@@ -52,8 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findById(Long id) {
-       return Optional.ofNullable(userRepository
-               .findById(id)
+       return Optional.ofNullable(userRepository.findById(id)
                .orElseThrow(
                        () -> new RuntimeException("User could not be found")
                ));
@@ -62,15 +61,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registerUser(RegistrationRequest request) {
         Optional<Role> userRole = roleRepository.findByNameIgnoreCase("ROLE_USER");
-        var user = new User(
-                request.getFirstName(),
-                request.getLastName(),
-                request.getEmail(),
-                passwordEncoder.encode(request.getPassword())
-                //Arrays.asList(new Role("USER_ROLE")) // the registered user has per default USER_ROLE
+
+        if (userRole.isEmpty()) {
+           throw new RuntimeException("User role could not be found");
+        }
+
+        User user = saveUser(request, userRole.get());
+        Confirmation confirmation = saveConfirmation(user);
+
+        publisher.publishEvent(
+                new UserEvent(
+                        confirmation.getUser(),
+                        EventType.REGISTRATION,
+                        Map.of("token", confirmation.getToken())
+                )
         );
-        user.setRoles(Arrays.asList(userRole.get()));
-        return userRepository.save(user);
+
+        return user;
     }
 
     @Override
@@ -140,7 +147,22 @@ public class UserServiceImpl implements UserService {
                         Map.of("token", confirmation.getToken())
                 )
         );
+    }
 
+    private Confirmation saveConfirmation(User user) {
+        Confirmation confirmation = new Confirmation(user);
+        return confirmationRepository.save(confirmation);
+    }
+
+    private User saveUser(RegistrationRequest request, Role role) {
+        var user = new User(
+                request.getFirstName(),
+                request.getLastName(),
+                request.getEmail(),
+                passwordEncoder.encode(request.getPassword())
+        );
+        user.setRoles(Collections.singleton(role));
+        return  userRepository.save(user);
     }
 
     private boolean isTokenExpired(Confirmation confirmation) {

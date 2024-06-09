@@ -18,6 +18,7 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 @Slf4j
+@Deprecated
 public class RegistrationCompleteEventListener
         implements ApplicationListener<RegistrationCompleteEvent> {
     private final ConfirmationService tokenService;

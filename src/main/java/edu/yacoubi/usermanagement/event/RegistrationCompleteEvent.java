@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationEvent;
 
 @Getter
 @Setter
+@Deprecated
 public class RegistrationCompleteEvent extends ApplicationEvent {
     private final User user;
     private final String confirmationUrl;
