@@ -12,7 +12,7 @@
 	<artifactId>sb-usermanagement</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>sb-usermanagement</name>
-	<description>Java Full-Stack Development with Spring Boot, Spring Security and Thymeleaf + Email Verification</description>
+	<description>Java Full-Stack Development with Spring Boot, Spring Security 6 and Thymeleaf + Email Verification</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>

@@ -42,7 +42,7 @@ public class RegistrationController {
     public String registerUser(@ModelAttribute("user") RegistrationRequest request,
             HttpServletRequest httpServletRequest) {
         User user = userService.registerUser(request);
-        return "redirect:/registration/registration-form?success";
+        return "redirect:/registration/form?success";
     }
 
     @GetMapping("/verifyEmail")
