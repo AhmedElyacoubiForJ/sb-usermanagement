@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
@@ -10,6 +9,7 @@
 </head>
 <body>
     <div class="container col-md-offset-3 col-md-8 mt-lg-5">
+        <!-- users is a model attribute, that was set in UserController -->
         <div th:switch="${users}">
             <h2 th:case="null">No users found.</h2>
             <div th:case="*">
