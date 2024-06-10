@@ -1,13 +1,16 @@
 package edu.yacoubi.usermanagement.utility;
 
+import edu.yacoubi.usermanagement.config.ClientTypeHolder;
+
 public class EmailUtils {
-    public static String getEmailMessage(String name, String host, String token, boolean isApi) {
+    public static String getEmailMessage(String name, String host, String token, ClientTypeHolder clientTypeHolder) {
         return "Hello " + name + ",\n\nYour new account has been created. Please click the link below to verify your account.\n\n" +
-                getVerificationUrl(host, token, isApi) + "\n\nThe Support Team.";
+                getVerificationUrl(host, token, clientTypeHolder) + "\n\nThe Support Team.";
     }
 
-    public static String getVerificationUrl(String host, String token, boolean isApi) {
-        if (isApi) {
+    public static String getVerificationUrl(String host, String token, ClientTypeHolder clientTypeHolder) {
+        if (clientTypeHolder.getClientType() != null
+                && clientTypeHolder.getClientType().equals("from-api")) {
             return host + "/api/v1/user/verify/account?token=" + token;
         } else {
             return host + "/registration/verifyEmail?token=" + token;

@@ -1,21 +1,18 @@
 package edu.yacoubi.usermanagement.controller;
 
 import edu.yacoubi.usermanagement.controller.dto.RegistrationRequest;
-import edu.yacoubi.usermanagement.event.listener.RegistrationCompleteEventListener;
 import edu.yacoubi.usermanagement.service.IPasswordResetConfirmationService;
 import edu.yacoubi.usermanagement.service.ConfirmationService;
 import edu.yacoubi.usermanagement.model.Confirmation;
 import edu.yacoubi.usermanagement.service.UserService;
 import edu.yacoubi.usermanagement.model.User;
 import edu.yacoubi.usermanagement.utility.UrlUtils;
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 import java.util.UUID;
 
