@@ -23,16 +23,20 @@ public class EmailServiceImpl implements EmailService {
     private String host;
     @Value("${spring.mail.username}")
     private String fromEmail;
+    @Value("${spring.mail.verify.api}")
+    private boolean isApi;
 
     @Override
     @Async // asynchronous means run in a background thread
     public void sendNewAccountEmail(String name, String toEmail, String token) {
         try {
+            //httpServlet.getHeader("x-api-key");
+            //((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getHeader("x-api-key");
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject(NEW_USER_ACCOUNT_VERIFICATION);
             message.setFrom(fromEmail);
             message.setTo(toEmail);
-            message.setText(getEmailMessage(name, host, token));
+            message.setText(getEmailMessage(name, host, token, isApi));
             mailSender.send(message);
         } catch (Exception e) {
             log.error(e.getMessage());

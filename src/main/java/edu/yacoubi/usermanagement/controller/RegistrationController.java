@@ -30,7 +30,7 @@ public class RegistrationController {
     private final UserService userService;
     private final ConfirmationService confirmationService;
     private final IPasswordResetConfirmationService passwordResetTokenService;
-    private final RegistrationCompleteEventListener eventListener;
+    //private final RegistrationCompleteEventListener eventListener;
 
     @GetMapping("/form")
     public String showRegistrationForm(Model model) {
@@ -81,13 +81,14 @@ public class RegistrationController {
         String url = UrlUtils.getApplicationUrl(httpRequest) +
                 "/registration/password-reset-form?token=" +
                 passwordResetToken;
-        try {
+        // TODO move listener to service implementation
+        /*try {
 
 
             eventListener.sentPasswordResetVerificationEmail(url);
         } catch (MessagingException | UnsupportedEncodingException e) {
             model.addAttribute("error", e.getMessage());
-        }
+        }*/
         return "redirect:/registration/forgot-password-request?success";
     }
 

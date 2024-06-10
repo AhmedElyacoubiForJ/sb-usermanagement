@@ -21,3 +21,5 @@ EMAIL_PORT: 587
 EMAIL_ID: ${EMAIL}          # Environment variable
 EMAIL_PASSWORD: ${PASSWORD} # Environment variable
 VERIFY_EMAIL_HOST: http://localhost:9090
+#CONTROLLER_PATH:  /api/v1/user/verify/account?token=
+#CONTROLLER_PATH:  /registration/verifyEmail?token=

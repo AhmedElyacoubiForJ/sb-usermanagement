@@ -43,6 +43,7 @@ spring:
             enable: true
     verify:
       host: ${VERIFY_EMAIL_HOST}
+      api: false
   sql:
     init:
       mode:  never # ALWAYS, EMBEDDED, NEVER
