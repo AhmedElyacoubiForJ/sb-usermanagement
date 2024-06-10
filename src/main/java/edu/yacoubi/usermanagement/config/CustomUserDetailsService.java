@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+// is responsible for loading user data from the database
+// and providing it to the Spring Security Framework for
+// authentication and authorization purposes.
+// requirement by Spring Security is to implement UserDetailsService
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
@@ -16,8 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
                 .map(CustomUserDetails::new)
-                .orElseThrow(
-                        () -> new UsernameNotFoundException(
+                .orElseThrow(() -> new UsernameNotFoundException(
                                 "User with email " + email + " could not be found"
                         )
                 );

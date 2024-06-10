@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+// is used to represent app user, in spring security context.
+// This custom implementation of UserDetails allows Spring Security
+// to authenticate and authorize users in the application.
 public class CustomUserDetails implements UserDetails {
     private String userName;
     private String password;
