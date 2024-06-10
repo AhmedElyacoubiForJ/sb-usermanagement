@@ -23,6 +23,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         log.debug("Loading user details for email: {}", email); // Debug log
 
         return userRepository.findByEmail(email)
+//                .map(user -> {
+//                    log.info("User details for email: {}", email);
+//                    return user;
+//                })
                 .map(CustomUserDetails::new)
                 .orElseThrow(() -> {
                     log.error("User with email {} could not be found", email); // Error log

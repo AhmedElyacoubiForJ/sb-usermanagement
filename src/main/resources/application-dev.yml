@@ -1,3 +1,9 @@
+#Debug
+logging:
+  level:
+    edu.yacoubi.usermanagement.config.CustomUserDetailsService: DEBUG
+    edu.yacoubi.usermanagement: INFO
+
 #Database
 MYSQL_USERNAME: root
 MYSQL_PASSWORD:
