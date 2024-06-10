@@ -27,15 +27,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    /*
-    * AuthenticationManager has a DaoAuthenticationProvider
-    * (with help of UserDetailsService & PasswordEncoder)
-    * to validate UsernamePasswordAuthenticationToken object.
-    * If successful, AuthenticationManager returns a fully populated Authentication object
-    * (including granted authorities).
-    *
-    * */
-
     @Bean
     public AuthenticationProvider authenticationProvider() {
         //MyOwnAuthenticationProvider authProvider = new MyOwnAuthenticationProvider(userDetailsService);
@@ -54,7 +45,10 @@ public class SecurityConfig {
     // spring boot security filter chain Bean
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // configure spring security to handle authentication, authorization,
+        // CSRF protection, and logout functionality for the application.
         return http.csrf(AbstractHttpConfigurer::disable)
+                // this method is used to define access rules for different request patterns.
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/",
@@ -62,22 +56,32 @@ public class SecurityConfig {
                                 "/error",
                                 "/registration/**",
                                 "/send-email-test",
+                                // rules pattern for API endpoint
                                 "/api/v1/user/register/**",
                                 "/api/v1/user/verify/account",
                                 "/api/v1/user/login",
                                 "/api/v1/user/reset/password/request"
-                        ).permitAll().anyRequest().authenticated()
+                        ).permitAll()
+                        // Any other request requires authentication
+                        .anyRequest()
+                        .authenticated()
                 )
+                // is used to configure form-based login.
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .usernameParameter("email")
-                        .defaultSuccessUrl("/")
-                        .permitAll()
+                        .loginPage("/login")        // Page
+                        .usernameParameter("email") // username is set to email
+                        .defaultSuccessUrl("/")     // after successful login, default success URL is set to "/"
+                        .permitAll()                // form-based login are permitted to all.
                 )
+                // is used to configure logout functionality.
                 .logout(logout -> logout
+                        // invalid HTTP session
                         .invalidateHttpSession(true)
+                        // clear Authentication object.
                         .clearAuthentication(true)
+                        // logout request matcher is set to "/logout"
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        // after logout, URL is set to "/"
                         .logoutSuccessUrl("/")
                 )
                 .build();
