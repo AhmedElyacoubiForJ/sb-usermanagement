@@ -11,17 +11,16 @@
 <div class="container col-md-offset-3 col-md-8 mt-lg-5">
     <div class="row mt-4">
         <div th:if="${param.error}" class="col-sm-8">
-            <p class="alert alert-danger alert-dismissible fade show" role="alert">
-                Invalid username or password.
-            </p>
+            <p class="alert alert-danger alert-dismissible fade show" role="alert">Invalid username or password.</p>
         </div>
         <div th:if="${param.verified}" class="col-sm-8">
-            <p class="alert alert-info alert-dismissible fade show">
-                This account has already been verified, please log in here.
-            </p>
+            <p class="alert alert-info alert-dismissible fade show">This account has already been verified, please log in here.</p>
         </div>
         <div th:if="${param.valid}" class="col-sm-8">
             <p class="alert alert-info alert-dismissible">Email verified successfully, please log in here.</p>
+        </div>
+        <div th:if="${param.logout}" class="col-sm-8">
+            <p class="alert alert-warning">You have been successfully logged out.</p>
         </div>
     </div>
 
