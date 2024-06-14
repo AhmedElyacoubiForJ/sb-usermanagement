@@ -9,10 +9,9 @@ spring:
   main:
     banner-mode: off
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}
-    username: ${MYSQL_USERNAME}
-    password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
     initialization-mode: always
   jpa:
     open-in-view: false
@@ -22,6 +21,8 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
         globally_quoted_identifiers: true
         format_sql: true
   mail:

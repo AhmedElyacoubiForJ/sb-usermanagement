@@ -5,11 +5,11 @@ logging:
     edu.yacoubi.usermanagement: INFO
 
 #Database
-MYSQL_USERNAME: root
-MYSQL_PASSWORD:
-MYSQL_HOST: localhost
-MYSQL_PORT: 3306
-MYSQL_DATABASE: end_to_end_db
+POSTGRES_USERNAME: ${ENV_POSTGRES_USERNAME}
+POSTGRES_PASSWORD: ${ENV_POSTGRES_PASSWORD}
+POSTGRES_HOST: localhost
+POSTGRES_PORT: 5432
+POSTGRES_DATABASE: confirmationdb
 
 
 #Server
