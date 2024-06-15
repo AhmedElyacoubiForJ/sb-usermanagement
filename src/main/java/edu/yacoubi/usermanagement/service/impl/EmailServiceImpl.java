@@ -31,17 +31,21 @@ public class EmailServiceImpl implements EmailService {
     @Override
     @Async // asynchronous means run in a background thread
     public void sendNewAccountEmail(String name, String toEmail, String token) {
-        try {
 
+        log.info("EmailSender to confirm registration");
+
+        try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject(NEW_USER_ACCOUNT_VERIFICATION);
             message.setFrom(fromEmail);
             message.setTo(toEmail);
             message.setText(getEmailMessage(name, host, token, clientTypeHolder));
             mailSender.send(message);
+            log.info("Email successfully send, {}", message);
         } catch (Exception e) {
-            log.error(e.getMessage());
-            throw new RuntimeException("Unable to send email");
+            String errorMessage = "Unable to send email";
+            log.error("Error occurred sending email, {} \n {}", errorMessage , e.getMessage());
+            throw new RuntimeException(errorMessage);
         }
     }
 

@@ -78,7 +78,7 @@ public class UserResource {
         }
     }
 
-    @PostMapping("/login") // 5:40
+    @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication;
         UsernamePasswordAuthenticationToken unauthenticated;

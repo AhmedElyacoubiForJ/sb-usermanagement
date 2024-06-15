@@ -60,15 +60,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(RegistrationRequest request) {
+
+        log.info("Register user with username: {}", request.getEmail());
+
         Optional<Role> userRole = roleRepository.findByNameIgnoreCase("ROLE_USER");
 
         if (userRole.isEmpty()) {
+            log.error("Error occurred getting the default user role");
            throw new RuntimeException("User role could not be found");
         }
 
+        log.info("Saving user with a default role: {}", userRole.get());
         User user = saveUser(request, userRole.get());
+
+        log.info("Saving a token confirmation for user: {}", user.getEmail());
         Confirmation confirmation = saveConfirmation(user);
 
+        log.info("Publish user event type: {}", EventType.REGISTRATION);
         publisher.publishEvent(
                 new UserEvent(
                         confirmation.getUser(),
@@ -76,6 +84,8 @@ public class UserServiceImpl implements UserService {
                         Map.of("token", confirmation.getToken())
                 )
         );
+
+        log.info("User with username '{}' is successfully registered", user.getEmail());
 
         return user;
     }

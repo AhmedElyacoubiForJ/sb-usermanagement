@@ -2,7 +2,6 @@ package edu.yacoubi.usermanagement;
 
 import edu.yacoubi.usermanagement.model.Role;
 import edu.yacoubi.usermanagement.repository.RoleRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,9 +12,7 @@ import java.util.Optional;
 
 @SpringBootApplication
 @EnableAsync
-@RequiredArgsConstructor
 public class Application {
-	private final RoleRepository roleRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);

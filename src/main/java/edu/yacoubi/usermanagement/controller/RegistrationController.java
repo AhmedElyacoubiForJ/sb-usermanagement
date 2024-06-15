@@ -49,6 +49,10 @@ public class RegistrationController {
             return "redirect:/login?verified";
         }
         String validatedToken = confirmationService.validateToken(token);
+        return getValidationPath(validatedToken);
+    }
+
+    private String getValidationPath(String validatedToken) {
         switch (validatedToken) {
             case EXPIRED:
                 return "redirect:/error?expired";
@@ -58,6 +62,7 @@ public class RegistrationController {
                 return "redirect:/error?invalid";
         }
     }
+
     @GetMapping("/forgot-password-request")
     public String forgotPassword() {
         return "forgot-password-form";
@@ -68,7 +73,7 @@ public class RegistrationController {
         // form parameters
         String email = httpRequest.getParameter("email");
         Optional<User> user = userService.findByEmail(email);
-        if (user.isEmpty()) {
+        if (!user.isPresent()) {
             return "redirect:/registration/forgot-password-request?not_found";
         }
 
@@ -79,13 +84,7 @@ public class RegistrationController {
                 "/registration/password-reset-form?token=" +
                 passwordResetToken;
         // TODO move listener to service implementation
-        /*try {
-
-
-            eventListener.sentPasswordResetVerificationEmail(url);
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            model.addAttribute("error", e.getMessage());
-        }*/
+        
         return "redirect:/registration/forgot-password-request?success";
     }
 
