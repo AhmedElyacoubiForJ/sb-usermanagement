@@ -6,6 +6,7 @@ import edu.yacoubi.usermanagement.repository.ConfirmationRepository;
 import edu.yacoubi.usermanagement.repository.UserRepository;
 import edu.yacoubi.usermanagement.service.ConfirmationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -18,20 +19,31 @@ import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ConfirmationServiceImpl implements ConfirmationService {
     private final ConfirmationRepository confirmationRepository;
     private final UserRepository userRepository;
 
     @Override
     public String validateToken(String token) {
+        log.info("ConfirmationService to validate token: {}", token);
+
         Optional<Confirmation> confirmationOptional = confirmationRepository.findByToken(token);
 
-        if (confirmationOptional.isEmpty()) return INVALID;
-        if (isTokenExpired(confirmationOptional.get())) return EXPIRED;
+        if (confirmationOptional.isEmpty()) {
+            log.info("Token: {} is invalid", token);
+            return INVALID;
+        }
+        if (isTokenExpired(confirmationOptional.get())) {
+            log.info("Token: {} is expired", token);
+            return EXPIRED;
+        }
 
         User user = confirmationOptional.get().getUser();
         user.setEnabled(true);
         userRepository.save(user);
+
+        log.info("Token: {} successfully validated for username {}", token,user.getEmail());
 
         return VALID;
     }

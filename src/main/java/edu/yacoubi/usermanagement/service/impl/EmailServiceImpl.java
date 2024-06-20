@@ -1,6 +1,6 @@
 package edu.yacoubi.usermanagement.service.impl;
 
-import edu.yacoubi.usermanagement.config.ClientTypeHolder;
+import edu.yacoubi.usermanagement.security.filter.ClientTypeHolder;
 import edu.yacoubi.usermanagement.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

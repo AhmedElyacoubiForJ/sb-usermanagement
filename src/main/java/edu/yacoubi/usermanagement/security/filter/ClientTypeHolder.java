@@ -1,4 +1,4 @@
-package edu.yacoubi.usermanagement.config;
+package edu.yacoubi.usermanagement.security.filter;
 
 import lombok.Getter;
 import lombok.Setter;

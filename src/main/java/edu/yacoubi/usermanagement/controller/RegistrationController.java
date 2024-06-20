@@ -9,6 +9,7 @@ import edu.yacoubi.usermanagement.model.User;
 import edu.yacoubi.usermanagement.utility.UrlUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -65,17 +66,22 @@ public class RegistrationController {
 
     @GetMapping("/forgot-password-request")
     public String forgotPassword() {
-        return "forgot-password-form";
+        return "/forgot-password/request-form";
     }
 
     @PostMapping("/forgot-password")
     public String requestPasswordRequest(Model model, HttpServletRequest httpRequest)  {
-        // form parameters
         String email = httpRequest.getParameter("email");
-        Optional<User> user = userService.findByEmail(email);
-        if (!user.isPresent()) {
-            return "redirect:/registration/forgot-password-request?not_found";
+        Optional<User> user;
+        try {
+            user = userService.findByEmail(email);
+        } catch (Exception ex) {
+            return "/forgot-password/request-form";
+            //      /forgot-password/request-form
         }
+//        if (!user.isPresent()) {
+//            return "redirect:/registration/forgot-password/request-form?not_found";
+//        }
 
         String passwordResetToken = UUID.randomUUID().toString();
         passwordResetTokenService.createPasswordResetTokenForUser(user.get(), passwordResetToken);

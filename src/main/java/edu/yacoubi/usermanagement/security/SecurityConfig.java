@@ -1,6 +1,5 @@
-package edu.yacoubi.usermanagement.config;
+package edu.yacoubi.usermanagement.security;
 
-import edu.yacoubi.usermanagement.security.MyOwnAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

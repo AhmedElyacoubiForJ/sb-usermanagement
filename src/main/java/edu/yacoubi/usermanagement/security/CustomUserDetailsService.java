@@ -1,4 +1,4 @@
-package edu.yacoubi.usermanagement.config;
+package edu.yacoubi.usermanagement.security;
 
 import edu.yacoubi.usermanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

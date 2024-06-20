@@ -1,6 +1,6 @@
 package edu.yacoubi.usermanagement.utility;
 
-import edu.yacoubi.usermanagement.config.ClientTypeHolder;
+import edu.yacoubi.usermanagement.security.filter.ClientTypeHolder;
 
 public class EmailUtils {
     public static String getEmailMessage(String name, String host, String token, ClientTypeHolder clientTypeHolder) {

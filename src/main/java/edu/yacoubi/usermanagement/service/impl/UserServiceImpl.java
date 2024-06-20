@@ -3,7 +3,7 @@ package edu.yacoubi.usermanagement.service.impl;
 import edu.yacoubi.usermanagement.model.Confirmation;
 import edu.yacoubi.usermanagement.repository.ConfirmationRepository;
 import edu.yacoubi.usermanagement.model.User;
-import edu.yacoubi.usermanagement.enumeration.EventType;
+import edu.yacoubi.usermanagement.event.enumeration.EventType;
 import edu.yacoubi.usermanagement.event.UserEvent;
 import edu.yacoubi.usermanagement.controller.dto.RegistrationRequest;
 import edu.yacoubi.usermanagement.repository.UserRepository;

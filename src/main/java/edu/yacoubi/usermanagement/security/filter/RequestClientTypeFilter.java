@@ -1,4 +1,4 @@
-package edu.yacoubi.usermanagement.config;
+package edu.yacoubi.usermanagement.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
