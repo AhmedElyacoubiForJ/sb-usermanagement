@@ -6,6 +6,16 @@
 * _Login / Logout_
 * _User Reset Forgot Password_
 
+## Scenario _**_Reset Forgot Password_**_
+1. In the Login page, user clicks on _"**Forgot Password**"_ link
+2. The System responds with a form page, requiring the user to provide their email address.
+3. On the same form page, user receives a message, email has been sent, and he's required to confirm.
+4. In the email text user clicks on the link, and so he will be prompted to a new form to give new password
+5. System responds with done and the user can now log in the system w. the new password
+
+## _**_Reset Forgot Password_**_ tasks
+1. 
+
 
 
 
