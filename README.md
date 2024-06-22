@@ -13,8 +13,14 @@
 4. In the email text user clicks on the link, and so he will be prompted to a new form to give new password
 5. System responds with done and the user can now log in the system w. the new password
 
-## _**_Reset Forgot Password_**_ tasks
-1. 
+## The tasks associated with implementing the Reset Forgot Password functionality are as follows:
+1. View Layer: Develop the request form, email input field. Password form, 2 passwords inputs fields, and client-side validation.
+2. Controller Layer: Implement the request path. Token validation path and Reset password path.
+3. Service Layer: Develop the following functionalities:
+   Make a request and store a token.
+   Fire an email event to the user for validation.
+   Validate the token.
+   Reset the password.
 
 
 
