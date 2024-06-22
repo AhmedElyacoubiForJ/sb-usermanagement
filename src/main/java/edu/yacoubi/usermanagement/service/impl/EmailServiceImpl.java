@@ -11,8 +11,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
-import static edu.yacoubi.usermanagement.utility.EmailUtils.getEmailMessage;
-import static edu.yacoubi.usermanagement.utility.EmailUtils.getResetPasswordMessage;
+import static edu.yacoubi.usermanagement.utility.EmailUtils.*;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +56,7 @@ public class EmailServiceImpl implements EmailService {
             message.setSubject(PASSWORD_REST_REQUEST);
             message.setFrom(fromEmail);
             message.setTo(toEmail);
-            message.setText(getResetPasswordMessage(name, host, token));
+            message.setText(getResetPasswordRequestMessage(name, host, token));
             mailSender.send(message);
         } catch (Exception e) {
             log.error(e.getMessage());

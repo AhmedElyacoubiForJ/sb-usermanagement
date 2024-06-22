@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.UUID;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -23,10 +24,19 @@ public class PasswordResetConfirmation {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+    private Boolean verified;
 
+    @Deprecated
     public PasswordResetConfirmation(String token, User user) {
         this.token = token;
         this.user = user;
         this.expirationTime = ConfirmationUtils.getExpirationTime();
+    }
+
+    public PasswordResetConfirmation(User user) {
+        this.user = user;
+        this.token = UUID.randomUUID().toString();
+        this.expirationTime = ConfirmationUtils.getExpirationTime();
+        this.verified = false;
     }
 }

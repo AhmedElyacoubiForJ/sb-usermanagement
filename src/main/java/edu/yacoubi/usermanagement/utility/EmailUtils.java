@@ -17,7 +17,12 @@ public class EmailUtils {
         }
     }
 
-    public static String getResetPasswordMessage(String name,String  host,String  token) {
+    public static String getResetPasswordRequestMessage(String name, String host, String token) {
+        return  "Hello " + name + ",\n\nYou have requested to reset your password. Please click the link below to get to the next step.\n\n" +
+                host + "/registration/password-forgot/verifyEmail?token=" + token + "\n\nThe Support Team.";
+    }
+
+    public static String getResetPasswordMessage(String name, String  host, String  token) {
         return "Hello " + name + ",\n\nYour new password has been created. Please click the link below to confirm the change.\n\n" +
                 getResetPasswordUrl(host, token) + "\n\nThe Support Team.";
     }

@@ -1,12 +1,11 @@
 package edu.yacoubi.usermanagement.controller;
 
 import edu.yacoubi.usermanagement.controller.dto.RegistrationRequest;
-import edu.yacoubi.usermanagement.service.IPasswordResetConfirmationService;
+import edu.yacoubi.usermanagement.service.IPasswordResetService;
 import edu.yacoubi.usermanagement.service.ConfirmationService;
 import edu.yacoubi.usermanagement.model.Confirmation;
 import edu.yacoubi.usermanagement.service.UserService;
 import edu.yacoubi.usermanagement.model.User;
-import edu.yacoubi.usermanagement.utility.UrlUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import static edu.yacoubi.usermanagement.constants.TokenStatus.INVALID;
 import static edu.yacoubi.usermanagement.constants.TokenStatus.VALID;
@@ -27,8 +25,7 @@ import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 public class RegistrationController {
     private final UserService userService;
     private final ConfirmationService confirmationService;
-    private final IPasswordResetConfirmationService passwordResetTokenService;
-    //private final RegistrationCompleteEventListener eventListener;
+    private final IPasswordResetService passwordResetService;
 
     @GetMapping("/form")
     public String showRegistrationForm(Model model) {
@@ -53,6 +50,55 @@ public class RegistrationController {
         return getValidationPath(validatedToken);
     }
 
+    @GetMapping("/forgot-password-request")
+    public String forgotPasswordRequestForm() {
+        return "/forgot-password/request-form";
+    }
+
+    @PostMapping("/forgot-password")
+    public String forgotPasswordInProcess(Model model, HttpServletRequest httpRequest)  {
+        String email = httpRequest.getParameter("email");
+
+        try {
+            Optional<User> user = userService.findByEmail(email);
+            passwordResetService.makeResetPasswordInProcess(user.get());
+        } catch (UsernameNotFoundException ex) {
+            return "redirect:/registration/forgot-password-request?not_found";
+        }
+
+        return "redirect:/registration/forgot-password-request?success";
+    }
+
+    @GetMapping("/password-forgot/verifyEmail")
+    public String passwordForgotVerifyEmail(@RequestParam("token") String token, Model model) {
+
+        // look if any password forgot token saved for the user
+        String verifiedToken = passwordResetService.verifyToken(token);
+        if(verifiedToken.equals(INVALID)) {
+            return "redirect:/error?invalid";
+        }
+        if(verifiedToken.equals(EXPIRED)) {
+            return "redirect:/error?expired";
+        }
+        model.addAttribute("token", token);
+        return "/forgot-password/reset-form";
+    }
+
+    @PostMapping("/password-forgot/reset")
+    public String resetPassword(HttpServletRequest httpRequest) {
+        // form parameters
+        String theToken = httpRequest.getParameter("token");
+        String password = httpRequest.getParameter("password");
+
+        Optional<User> theUser = passwordResetService
+                .findUserByPasswordResetToken(theToken);
+        if (theUser.isPresent()) {
+            passwordResetService.resetPassword(theUser.get(), password);
+            return "redirect:/login?reset_password";
+        }
+        return "redirect:/error?not_found";
+    }
+
     private String getValidationPath(String validatedToken) {
         switch (validatedToken) {
             case EXPIRED:
@@ -62,65 +108,5 @@ public class RegistrationController {
             default:
                 return "redirect:/error?invalid";
         }
-    }
-
-    @GetMapping("/forgot-password-request")
-    public String forgotPassword() {
-        return "/forgot-password/request-form";
-    }
-
-    @PostMapping("/forgot-password")
-    public String requestPasswordRequest(Model model, HttpServletRequest httpRequest)  {
-        String email = httpRequest.getParameter("email");
-        Optional<User> user;
-        try {
-            user = userService.findByEmail(email);
-        } catch (Exception ex) {
-            return "/forgot-password/request-form";
-            //      /forgot-password/request-form
-        }
-//        if (!user.isPresent()) {
-//            return "redirect:/registration/forgot-password/request-form?not_found";
-//        }
-
-        String passwordResetToken = UUID.randomUUID().toString();
-        passwordResetTokenService.createPasswordResetTokenForUser(user.get(), passwordResetToken);
-        // send password reset verification to the user
-        String url = UrlUtils.getApplicationUrl(httpRequest) +
-                "/registration/password-reset-form?token=" +
-                passwordResetToken;
-        // TODO move listener to service implementation
-        
-        return "redirect:/registration/forgot-password-request?success";
-    }
-
-    @GetMapping("/password-reset-form")
-    public String passwordResetForm(@RequestParam("token") String token, Model model) {
-        model.addAttribute("token", token);
-        return "password-reset-form";
-    }
-
-    @PostMapping("/reset-password")
-    public String resetPassword(HttpServletRequest httpRequest) {
-        // form parameters
-        String theToken = httpRequest.getParameter("token");
-        String password = httpRequest.getParameter("password");
-        // token has validation time
-        String validatedToken = passwordResetTokenService
-                .validatePasswordResetToken(theToken);
-
-        if(validatedToken.equals(INVALID)) {
-            return "redirect:/error?invalid";
-        }
-        if(validatedToken.equals(EXPIRED)) {
-            return "redirect:/error?expired";
-        }
-        Optional<User> theUser = passwordResetTokenService
-                .findUserByPasswordResetToken(theToken);
-        if (theUser.isPresent()) {
-            passwordResetTokenService.resetPassword(theUser.get(), password);
-            return "redirect:/login?reset_password";
-        }
-        return "redirect:/error?not_found";
     }
 }

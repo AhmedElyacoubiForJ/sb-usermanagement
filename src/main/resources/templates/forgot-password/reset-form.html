@@ -15,7 +15,7 @@
         </div>
 
         <div class="row mt-2">
-            <form th:action="@{/registration/reset-password}" method="post" class="px-4 mt-lg-5">
+            <form th:action="@{/registration/password-forgot/reset}" method="post" class="px-4 mt-lg-5">
                 <input type="hidden" name="token" th:value="${token}">
                 <h2 class="mb-4">Reset your password </h2>
 
@@ -27,8 +27,9 @@
                                 class="form-control"
                                 id="password"
                                 name="password"
-                                required placeholder="********"
+                                placeholder="********"
                                 autofocus="autofocus"
+                                required
                         >
                     </div>
                 </div>
@@ -41,9 +42,9 @@
                                 class="form-control"
                                 id="confirm"
                                 name="confirm"
-                                required
                                 placeholder="********"
                                 autofocus="autofocus"
+                                required
                                 oninput="checkConfirmPassword(this)"
                         >
                     </div>

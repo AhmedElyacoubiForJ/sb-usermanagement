@@ -1,5 +1,5 @@
 server:
-  port: 9090
+  port: 8080
 spring:
   profiles:
     active: ${ACTIVE_PROFILE:dev}
@@ -18,7 +18,7 @@ spring:
     generate-ddl: true
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
