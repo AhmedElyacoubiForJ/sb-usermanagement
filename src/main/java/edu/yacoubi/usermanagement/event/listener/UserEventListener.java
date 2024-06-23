@@ -1,6 +1,6 @@
 package edu.yacoubi.usermanagement.event.listener;
 
-import edu.yacoubi.usermanagement.service.EmailService;
+import edu.yacoubi.usermanagement.service.IEmailService;
 import edu.yacoubi.usermanagement.event.UserEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Slf4j
 public class UserEventListener {
-    private final EmailService emailService;
+    private final IEmailService emailService;
 
     @EventListener
     public void onUserEvent(UserEvent event) {

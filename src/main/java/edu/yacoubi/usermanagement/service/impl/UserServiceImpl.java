@@ -9,7 +9,7 @@ import edu.yacoubi.usermanagement.controller.dto.RegistrationRequest;
 import edu.yacoubi.usermanagement.repository.UserRepository;
 import edu.yacoubi.usermanagement.model.Role;
 import edu.yacoubi.usermanagement.repository.RoleRepository;
-import edu.yacoubi.usermanagement.service.UserService;
+import edu.yacoubi.usermanagement.service.IUserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 @Transactional(rollbackOn = Exception.class)
 @RequiredArgsConstructor
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements IUserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final ConfirmationRepository confirmationRepository;

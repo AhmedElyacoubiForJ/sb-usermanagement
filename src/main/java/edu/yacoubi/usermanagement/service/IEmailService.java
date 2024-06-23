@@ -1,6 +1,6 @@
 package edu.yacoubi.usermanagement.service;
 
-public interface EmailService {
+public interface IEmailService {
     void sendNewAccountEmail(String name, String toEmail, String token);
     void sendPasswordResetEmail(String name, String toEmail, String token);
 

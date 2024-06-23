@@ -31,13 +31,6 @@ public class PasswordResetServiceImpl implements IPasswordResetService {
     private final ApplicationEventPublisher publisher;
 
     @Override
-    public void createPasswordResetTokenForUser(User user, String passwordResetToken) {
-        PasswordResetConfirmation newToken =
-                new PasswordResetConfirmation(passwordResetToken, user);
-        passwordResetConfirmationRepository.save(newToken);
-    }
-
-    @Override
     public String verifyToken(String theToken) {
         Optional<PasswordResetConfirmation> passwordResetToken =
                 passwordResetConfirmationRepository.findByToken(theToken);

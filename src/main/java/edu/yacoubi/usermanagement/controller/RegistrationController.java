@@ -2,9 +2,9 @@ package edu.yacoubi.usermanagement.controller;
 
 import edu.yacoubi.usermanagement.controller.dto.RegistrationRequest;
 import edu.yacoubi.usermanagement.service.IPasswordResetService;
-import edu.yacoubi.usermanagement.service.ConfirmationService;
+import edu.yacoubi.usermanagement.service.IConfirmationService;
 import edu.yacoubi.usermanagement.model.Confirmation;
-import edu.yacoubi.usermanagement.service.UserService;
+import edu.yacoubi.usermanagement.service.IUserService;
 import edu.yacoubi.usermanagement.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,8 @@ import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 @RequiredArgsConstructor
 @RequestMapping("/registration")
 public class RegistrationController {
-    private final UserService userService;
-    private final ConfirmationService confirmationService;
+    private final IUserService userService;
+    private final IConfirmationService confirmationService;
     private final IPasswordResetService passwordResetService;
 
     @GetMapping("/form")

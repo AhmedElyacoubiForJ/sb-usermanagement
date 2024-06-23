@@ -4,7 +4,7 @@ import edu.yacoubi.usermanagement.model.Confirmation;
 import edu.yacoubi.usermanagement.model.User;
 import edu.yacoubi.usermanagement.repository.ConfirmationRepository;
 import edu.yacoubi.usermanagement.repository.UserRepository;
-import edu.yacoubi.usermanagement.service.ConfirmationService;
+import edu.yacoubi.usermanagement.service.IConfirmationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ConfirmationServiceImpl implements ConfirmationService {
+public class ConfirmationServiceImpl implements IConfirmationService {
     private final ConfirmationRepository confirmationRepository;
     private final UserRepository userRepository;
 
@@ -46,12 +46,6 @@ public class ConfirmationServiceImpl implements ConfirmationService {
         log.info("Token: {} successfully validated for username {}", token,user.getEmail());
 
         return VALID;
-    }
-
-    @Override
-    public void saveTokenForUser(String token, User user) {
-        Confirmation confirmation = new Confirmation(token, user);
-        confirmationRepository.save(confirmation);
     }
 
     @Override

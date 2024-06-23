@@ -3,8 +3,8 @@ package edu.yacoubi.usermanagement.api;
 import edu.yacoubi.usermanagement.api.dto.LoginRequest;
 import edu.yacoubi.usermanagement.api.dto.Response;
 import edu.yacoubi.usermanagement.api.dto.UserRequest;
-import edu.yacoubi.usermanagement.service.ConfirmationService;
-import edu.yacoubi.usermanagement.service.UserService;
+import edu.yacoubi.usermanagement.service.IConfirmationService;
+import edu.yacoubi.usermanagement.service.IUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +30,8 @@ import static edu.yacoubi.usermanagement.constants.TokenStatus.EXPIRED;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
 public class UserResource {
-    private final UserService userService;
-    private final ConfirmationService confirmationService;
+    private final IUserService userService;
+    private final IConfirmationService confirmationService;
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")

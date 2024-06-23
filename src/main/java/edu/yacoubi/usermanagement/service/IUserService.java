@@ -6,7 +6,7 @@ import edu.yacoubi.usermanagement.controller.dto.RegistrationRequest;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserService {
+public interface IUserService {
     List<User> getAllUsers();
     Optional<User> findByEmail(String email);
     Optional<User> findById(Long id);

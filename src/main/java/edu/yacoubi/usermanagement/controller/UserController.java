@@ -1,6 +1,6 @@
 package edu.yacoubi.usermanagement.controller;
 
-import edu.yacoubi.usermanagement.service.UserService;
+import edu.yacoubi.usermanagement.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
+    private final IUserService IUserService;
     @GetMapping
     public String getAllUsers(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("users", IUserService.getAllUsers());
         return "users";
     }
 }

@@ -1,7 +1,7 @@
 package edu.yacoubi.usermanagement.service.impl;
 
 import edu.yacoubi.usermanagement.security.filter.ClientTypeHolder;
-import edu.yacoubi.usermanagement.service.EmailService;
+import edu.yacoubi.usermanagement.service.IEmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,7 @@ import static edu.yacoubi.usermanagement.utility.EmailUtils.*;
 @RequiredArgsConstructor
 @Slf4j
 @RequestScope
-public class EmailServiceImpl implements EmailService {
+public class EmailServiceImpl implements IEmailService {
     private static final String NEW_USER_ACCOUNT_VERIFICATION = "New User Account verification";
     private static final String PASSWORD_REST_REQUEST = "Reset Password Request";
     private final JavaMailSender mailSender;
@@ -81,4 +81,59 @@ public class EmailServiceImpl implements EmailService {
         // TODO: implement
         throw new  UnsupportedOperationException("Not implemented");
     }
+
+    /*
+    * private void sentVerificationEmail(String url)
+            throws MessagingException, UnsupportedEncodingException {
+        log.info("sentVerificationEmail");
+        log.info(url);
+        //1. build the email
+        String subject = "Email Verification";
+        String senderName = "Users Verification Service";
+        String mailContent = "<p> Hi, " + user.getFirstName() + " " + user.getLastName() + ", </p>" +
+                "<p>Thank you for registering with us, Please click on the following link to complete your registration. </p>" +
+                "<a href=\"" + url + "\">Verify your email to activate your account</a>" +
+                "<p>Thank you,</p>" +
+                "<p>Users Registration Portal Service</p>";
+        //2. send the email
+        emailMessage(subject, senderName, mailContent, mailSender, user);
+        log.info("sentVerificationEmail");
+        log.info(url);
+    }
+
+    public void sentPasswordResetVerificationEmail(String url)
+            throws MessagingException, UnsupportedEncodingException {
+        log.info("sentPasswordResetVerificationEmail");
+        log.info(url);
+        //1. build the email
+        String subject = "Password Reset Request Verification";
+        String senderName = "Users Verification Service";
+        String mailContent = "<p> Hi, " + "user.getFirstName()" + " " + "user.getLastName()" + ", </p>" +
+                "<p><b>You recently requested to reset reset your password,</b>" +
+                "Please, follow the link below to complete the action. </p>" +
+                "<a href=\"" + url + "\">Reset password</a>" +
+                "<p>Thank you,</p>" +
+                "<p>Users Registration Portal Service</p>";
+        //2. send the email
+        emailMessage(subject, senderName, mailContent, mailSender, user);
+        log.info("sentPasswordResetVerificationEmail, {}", url);
+    }
+
+    private void emailMessage(
+            String subject,
+            String senderName,
+            String mailContent,
+            JavaMailSender mailSender,
+            User theUser)
+        throws MessagingException, UnsupportedEncodingException {
+       MimeMessage message = mailSender.createMimeMessage();
+       var messageHelper = new MimeMessageHelper(message);
+       messageHelper.setFrom("a.el_yacoubi@gmx.de", senderName);
+       messageHelper.setTo(theUser.getEmail());
+       messageHelper.setSubject(subject);
+       messageHelper.setText(mailContent, true);
+       mailSender.send(message);
+    }
+    *
+    * */
 }
