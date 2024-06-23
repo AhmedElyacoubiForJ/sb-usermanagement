@@ -91,6 +91,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    @Transactional
     public void updateUser(Long id, String firstName, String lastName, String email) {
         var user = userRepository.findById(id)
                .orElseThrow(
@@ -159,6 +160,18 @@ public class UserServiceImpl implements IUserService {
         );
     }
 
+    @Override
+    @Transactional
+    public void deleteUser(Long id) {
+        // the user don't know the confirmation
+        // we must first delete the parent of the user
+        // our JPA Entity model is unidirectional
+        Optional<User> userOptional = userRepository.findById(id);
+        userOptional.ifPresent(user -> confirmationRepository.deleteByUserId(user.getId()));
+
+        userRepository.deleteById(id);
+    }
+
     private Confirmation saveConfirmation(User user) {
         Confirmation confirmation = new Confirmation(user);
         return confirmationRepository.save(confirmation);
@@ -171,7 +184,8 @@ public class UserServiceImpl implements IUserService {
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword())
         );
-        user.setRoles(Collections.singleton(role));
+        //user.setRoles(Collections.singleton(role));
+        user.setRoles(Arrays.asList(role));
         return  userRepository.save(user);
     }
 

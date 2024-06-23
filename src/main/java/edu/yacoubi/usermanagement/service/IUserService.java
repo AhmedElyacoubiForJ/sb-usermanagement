@@ -12,10 +12,8 @@ public interface IUserService {
     Optional<User> findById(Long id);
     User registerUser(RegistrationRequest registrationRequest);
     void updateUser(Long id, String firstName, String lastName, String email);
-    //
     void createUser(String firstName, String lastName, String email, String password);
-
     String verifyAccountToken(String token);
-
     void requestResetPasswordForUser(String email);
+    void deleteUser(Long id);
 }

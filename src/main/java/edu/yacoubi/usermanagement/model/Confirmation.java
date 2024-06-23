@@ -12,25 +12,15 @@ import java.util.UUID;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Getter @Setter @NoArgsConstructor
 public class Confirmation {
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @Id @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String token;
     private Date expirationTime;
-
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    public Confirmation(String token, User user) {
-        this.token = token;
-        this.user = user;
-        this.expirationTime = ConfirmationUtils.getExpirationTime();
-    }
 
     public Confirmation(User user) {
         this.user = user;

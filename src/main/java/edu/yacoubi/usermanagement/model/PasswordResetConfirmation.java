@@ -12,12 +12,9 @@ import java.util.UUID;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Getter @Setter @NoArgsConstructor
 public class PasswordResetConfirmation {
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @Id @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String token;
     private Date expirationTime;
@@ -25,13 +22,6 @@ public class PasswordResetConfirmation {
     @JoinColumn(name = "user_id")
     private User user;
     private Boolean verified;
-
-    @Deprecated
-    public PasswordResetConfirmation(String token, User user) {
-        this.token = token;
-        this.user = user;
-        this.expirationTime = ConfirmationUtils.getExpirationTime();
-    }
 
     public PasswordResetConfirmation(User user) {
         this.user = user;

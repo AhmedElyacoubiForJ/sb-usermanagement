@@ -5,52 +5,44 @@
     <title>Users</title>
 </head>
 <body>
-    <div class="container col-md-offset-3 col-md-8 mt-lg-5">
-        <div th:replace="fragments :: menu_navbar"></div>
-        <div class="row mt-2">
-            <div th:if="${param.update_success}" class="alert alert-info">
-                User has been updated successfully.
-            </div>
-            <div th:if="${param.delete_success}" class="alert alert-info">
-                User has been deleted successfully.
-            </div>
+<div class="container col-md-offset-3 col-md-8 mt-lg-5">
+    <div th:replace="fragments :: menu_navbar"></div>
+    <div class="row mt-2">
+        <div th:if="${param.update_success}" class="alert alert-info">
+            User has been updated successfully.
         </div>
-        <!-- users is a model attribute, that was set in UserController -->
-        <div th:switch="${users}">
-            <h2 th:case="null">No users found.</h2>
-            <div th:case="*">
-                <h2>All Users</h2>
-                <table class="table table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Email</th>
-                        <th colspan="2">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="user : ${users}">
-                        <td th:text="${user.firstName}"></td>
-                        <td th:text="${user.lastName}"></td>
-                        <td th:text="${user.email}"></td>
-                        <td>
-                            <a href="#" class="btn btn-info">Edit</a>
-                        </td>
-                        <td>
-                            <a href="#" class="btn btn-danger">Delete</a>
-                        </td>
-                        <!--<td>
-                            <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-primary">Edit</a>
-                            <a th:href="@{/users/{id}/delete(id=${user.id})}" class="btn btn-danger">Delete</a>
-                        </td>-->
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p><a href="#" th:href="@{/registration/form}">Add a new user</a></p>
+        <div th:if="${param.delete_success}" class="alert alert-info">
+            User has been deleted successfully.
         </div>
     </div>
+    <!-- users is a model attribute, that was set in UserController -->
+    <div th:switch="${users}">
+        <h2 th:case="null">No users found.</h2>
+        <div th:case="*">
+            <h2>All Users</h2>
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td><a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-info">Edit</a></td>
+                    <td><a th:href="@{/users/delete/{id}(id=${user.id})}" class="btn btn-danger">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p><a href="#" th:href="@{/registration/form}">Add a new user</a></p>
+    </div>
+</div>
 </body>
 </html>
 
